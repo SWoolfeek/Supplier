@@ -25,17 +25,14 @@ namespace StoreEngine
         public int happiness;
     }
 
-    public enum Necessity
-    {
-        Luxury = 0,
-        Normal = 1,
-        Necessary = 2
-    }
-
     public enum ProductType
     {
         Food = 0,
-        Material = 1
+        Weapon = 1,
+        Сlothes = 2,
+        Transport = 3,
+        Materials = 4,
+        Others = 10
     }
 }
 
