@@ -23,12 +23,6 @@ namespace CoreSystems
             _timeBetweenTick = parameters.timeBetweenTicks;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
-
         private void StartTick()
         {
             _ticking = true;
