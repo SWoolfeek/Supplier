@@ -15,7 +15,7 @@ namespace ProductMenu
     {
 #if UNITY_EDITOR
         [ListDrawerSettings(ShowFoldout = true)] [HideInInspector]
-        public StoreProduct[] storeProducts;
+        public Product[] products;
         
         [ReadOnly] [TableList(AlwaysExpanded = true)]
         [SerializeField] private List<StoreProductDataOverview> data;
@@ -25,20 +25,19 @@ namespace ProductMenu
         public void UpdateCharacterOverview()
         {
             // Finds and assigns all scriptable objects of type Character
-            this.storeProducts = AssetDatabase.FindAssets("", new[] {"Assets/Data/Store Engine/Products/Store Product"})
-                .Select(guid => AssetDatabase.LoadAssetAtPath<StoreProduct>(AssetDatabase.GUIDToAssetPath(guid)))
+            this.products = AssetDatabase.FindAssets("", new[] {"Assets/Data/Store Engine/Products/Weapons", "Assets/Data/Store Engine/Products/Food"})
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Product>(AssetDatabase.GUIDToAssetPath(guid)))
                 .ToArray();
 
             data = new List<StoreProductDataOverview>();
             
-            foreach (StoreProduct sProduct in storeProducts)
+            foreach (Product sProduct in products)
             {
                 data.Add(new StoreProductDataOverview(sProduct));
             }
         }
 #endif
     }
- 
 #if UNITY_EDITOR
     [Serializable]
     public class StoreProductDataOverview
@@ -46,19 +45,21 @@ namespace ProductMenu
         [HideLabel, PreviewField(60)]
         public Texture icon;
         public string name;
+        public ProductType type;
         public int amount;
         public float outputPerTick;
         public float outputMultiplier;
         public float space;
 
-        public StoreProductDataOverview(StoreProduct storeProduct)
+        public StoreProductDataOverview(Product product)
         {
-            icon = storeProduct.product.icon;
-            name = storeProduct.product.name;
-            amount = storeProduct.amount;
-            outputPerTick = storeProduct.outputPerTick;
-            outputMultiplier = storeProduct.outputMultiplier;
-            space = storeProduct.space;
+            icon = product.icon;
+            name = product.productName;
+            type = product.productType;
+            amount = product.amount;
+            outputPerTick = product.outputPerTick;
+            outputMultiplier = product.outputMultiplier;
+            space = product.space;
         }
     }
 #endif

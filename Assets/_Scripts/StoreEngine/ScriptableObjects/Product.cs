@@ -7,22 +7,44 @@ using UnityEngine;
 
 namespace StoreEngine
 {
-    [CreateAssetMenu (menuName = "ScriptableObjects/Store Engine/Product")]
     public class Product : ScriptableObject
     {
+        protected const string LEFT_VERTICAL_GROUP             = "Split/Left";
+        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
+        
         // Product description.
+        [BoxGroup("Properties")]
         [HideLabel, PreviewField(60)]
-        [HorizontalGroup("Split", 60)]
         public Texture icon;
         
-        [VerticalGroup("Split/Right"), LabelWidth(120)] [DisableInPlayMode]
+        [BoxGroup("Properties")] [DisableInPlayMode]
         public string productName;
-        [VerticalGroup("Split/Right"), LabelWidth(120)] [DisableInPlayMode]
+        [BoxGroup("Properties")] [TextArea(4, 14)]
+        public string Description;
+        [BoxGroup("Properties")] [DisableInPlayMode]
         public string description;
-        [VerticalGroup("Split/Right"), LabelWidth(120)] [DisableInPlayMode]
+        [BoxGroup("Properties")] [ReadOnly]
         public ProductType productType;
-        [VerticalGroup("Split/Right"), LabelWidth(120)] [Range(0,10)] [DisableInPlayMode]
+        [BoxGroup("Properties")] [Range(0,10)] [DisableInPlayMode]
         public int happiness;
+        
+        // Store data.
+        [BoxGroup("Store data")]
+        [MinValue(0)]
+        public int amount;
+        [BoxGroup("Store data")]
+        [MinValue(0f)]
+        public float outputPerTick;
+        [BoxGroup("Store data")]
+        [Range(0,2f)]
+        public float outputMultiplier;
+        [BoxGroup("Store data")]
+        [MinValue(0f)]
+        public float space;
+
+        // Data for calculation;
+        [SerializeField] [HideInInspector]
+        private float outputResidual;
     }
 
     public enum ProductType

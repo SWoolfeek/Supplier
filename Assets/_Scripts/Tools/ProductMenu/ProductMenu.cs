@@ -27,18 +27,14 @@ namespace ProductMenu
             tree.Config.DrawSearchToolbar = true;
             
             // Adds all products.
-            tree.AddAllAssetsAtPath("Products", "Assets/Data/Store Engine/Products/Base Product", typeof(Product), true)
+            tree.AddAllAssetsAtPath("Products", "Assets/Data/Store Engine/Products", typeof(Product), true)
                 .ForEach(this.AddDragHandles);
             
             // Adds all store products overview.
             tree.AddAllAssetsAtPath("Store Products", "Assets/Data/Store Engine/Products", typeof(StoreProductsOverview), false);
             
-            // Adds all store products.
-            tree.AddAllAssetsAtPath("Store Products", "Assets/Data/Store Engine/Products/Store Product", typeof(StoreProduct), true)
-                .ForEach(this.AddDragHandles);
             
             tree.EnumerateTree().AddIcons<Product>(x => x.icon);
-            tree.EnumerateTree().AddIcons<StoreProduct>(x => x.product.icon);
             
             return tree;
         }

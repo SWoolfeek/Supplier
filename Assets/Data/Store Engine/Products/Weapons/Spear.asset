@@ -9,12 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecd36aa18681de04b83d62ae18df90fe, type: 3}
-  m_Name: Meat
+  m_Script: {fileID: 11500000, guid: 6b1d94f285f4c89429f95fbdca21c5c9, type: 3}
+  m_Name: Spear
   m_EditorClassIdentifier: 
-  product: {fileID: 0}
+  icon: {fileID: 0}
+  productName: 
+  Description: 
+  description: 
+  productType: 1
+  happiness: 0
   amount: 0
   outputPerTick: 0
   outputMultiplier: 0
   space: 0
   outputResidual: 0
+  damage: 0
