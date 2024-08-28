@@ -23,7 +23,7 @@ namespace CoreSystems
             _timeBetweenTick = parameters.timeBetweenTicks;
         }
 
-        private void StartTick()
+        public void StartTick()
         {
             _ticking = true;
             _tickCoroutine = StartCoroutine(TickCoroutine());
