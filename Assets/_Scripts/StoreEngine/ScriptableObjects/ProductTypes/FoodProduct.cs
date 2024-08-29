@@ -14,7 +14,7 @@ namespace StoreEngine
         
         private FoodProduct()
         {
-            productType = ProductType.Weapon;
+            productType = ProductType.Food;
         }
     }
 }

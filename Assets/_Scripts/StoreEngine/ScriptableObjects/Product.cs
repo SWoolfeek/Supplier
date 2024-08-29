@@ -9,9 +9,6 @@ namespace StoreEngine
 {
     public class Product : ScriptableObject
     {
-        protected const string LEFT_VERTICAL_GROUP             = "Split/Left";
-        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
-        
         // Product description.
         [BoxGroup("Properties")]
         [HideLabel, PreviewField(60)]
