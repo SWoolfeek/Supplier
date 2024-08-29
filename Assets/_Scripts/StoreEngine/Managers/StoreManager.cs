@@ -1,3 +1,5 @@
+using System;
+using CoreSystems;
 using Sirenix.OdinInspector;
 
 namespace StoreEngine
@@ -13,7 +15,12 @@ namespace StoreEngine
         
         private Dictionary<string, Product> productsDictionary = new Dictionary<string, Product>();
         private SaveProducts _saveProducts = new SaveProducts();
-        
+
+        private void Awake()
+        {
+            GlobalEventManager.onTick.AddListener(TickEnded);
+        }
+
         public void StartStore()
         {
             foreach (Product product in allProducts.allProducts)
@@ -28,6 +35,11 @@ namespace StoreEngine
                     _saveProducts.ModifyProduct(productsDictionary[product]);
                 }
             }
+        }
+
+        private void TickEnded()
+        {
+            
         }
 
         [Button]

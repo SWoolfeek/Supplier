@@ -42,6 +42,22 @@ namespace StoreEngine
         // Data for calculation;
         [SerializeField] [HideInInspector]
         private float outputResidual;
+
+        public int TickProduction()
+        {
+            if (outputPerTick * outputMultiplier + outputResidual > 1)
+            {
+                int newProduct = (int)(outputPerTick * outputMultiplier + outputResidual);
+                amount += newProduct;
+                outputResidual = (outputPerTick * outputMultiplier + outputResidual) - newProduct;
+            }
+            else
+            {
+                outputResidual += outputPerTick * outputMultiplier;
+            }
+
+            return amount;
+        }
     }
 
     public enum ProductType
