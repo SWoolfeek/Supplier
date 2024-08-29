@@ -13,6 +13,9 @@ namespace StoreEngine
     {
         [SerializeField] private AllProducts allProducts;
         
+        [Header("Managers")]
+        [SerializeField] private StoreProduction storeProduction;
+        
         private Dictionary<string, Product> productsDictionary = new Dictionary<string, Product>();
         private SaveProducts _saveProducts = new SaveProducts();
 
@@ -35,11 +38,13 @@ namespace StoreEngine
                     _saveProducts.ModifyProduct(productsDictionary[product]);
                 }
             }
+            
+            storeProduction.Initialization(productsDictionary.Values.ToArray(), _saveProducts);
         }
 
         private void TickEnded()
         {
-            
+            storeProduction.StartProduction();
         }
 
         [Button]

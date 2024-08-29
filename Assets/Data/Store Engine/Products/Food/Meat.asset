@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Meat
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  productName: 
+  productName: Meat
   Description: 
   description: 
   productType: 0
   happiness: 0
-  amount: 0
+  amount: 1000
   outputPerTick: 0
-  outputMultiplier: 0
+  outputMultiplier: 0.25
   space: 0
   outputResidual: 0
   energyValue: 0

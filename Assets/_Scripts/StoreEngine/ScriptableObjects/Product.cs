@@ -41,9 +41,9 @@ namespace StoreEngine
 
         // Data for calculation;
         [SerializeField] [HideInInspector]
-        private float outputResidual;
+        public float outputResidual;
 
-        public int TickProduction()
+        public void TickProduction()
         {
             if (outputPerTick * outputMultiplier + outputResidual > 1)
             {
@@ -55,8 +55,6 @@ namespace StoreEngine
             {
                 outputResidual += outputPerTick * outputMultiplier;
             }
-
-            return amount;
         }
     }
 

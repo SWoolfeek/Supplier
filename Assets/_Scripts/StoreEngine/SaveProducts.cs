@@ -1,13 +1,12 @@
 
-
-using System.Linq;
-
 namespace StoreEngine
 {
     using System.Collections.Generic;
     using UnityEngine;
     using System.IO;
     using System;
+    using System.Linq;
+
 
 
     public class SaveProducts
@@ -15,24 +14,23 @@ namespace StoreEngine
         private string _directory = "Saves";
         private Dictionary<string, ProductSaveData> _saveData;
         
-        public void AddModifiedProduct(string productName, int amount, float outputMultiplier)
+        public void AddModifiedProduct(string productName, int amount, float outputMultiplier, float outputResidual, bool withSave = true)
         {
-            /*ProductSaveData sd = new ProductSaveData();
-            sd.productName = productName;
-            sd.amount = amount;
-            sd.outputMultiplier = outputMultiplier;*/
             if (_saveData.ContainsKey(productName))
             {
-                _saveData[productName] = new ProductSaveData(productName, amount, outputMultiplier);
-                /*_saveData[productName] = sd;*/
+                _saveData[productName] = new ProductSaveData(productName, amount, outputMultiplier, outputResidual);
             }
             else
             {
-                _saveData.Add(productName, new ProductSaveData(productName,amount,outputMultiplier));
-                /*_saveData.Add(productName, sd);*/
+                _saveData.Add(productName, new ProductSaveData(productName,amount,outputMultiplier, outputResidual));
             }
-            
-            SaveData();
+
+            Debug.Log(productName);
+
+            if (withSave)
+            {
+                SaveData();
+            }
         }
 
         public void SaveData()
@@ -93,6 +91,7 @@ namespace StoreEngine
             {
                 product.amount = _saveData[product.productName].amount;
                 product.outputMultiplier = _saveData[product.productName].outputMultiplier;
+                product.outputResidual = _saveData[product.productName].outputResidual;
             }
             
         }
@@ -110,12 +109,14 @@ namespace StoreEngine
         public string productName;
         public int amount;
         public float outputMultiplier;
+        public float outputResidual;
 
-        public ProductSaveData(string inputName, int inputAmount, float inputMultiplier)
+        public ProductSaveData(string inputName, int inputAmount, float inputMultiplier, float inputResidual)
         {
             productName = inputName;
             amount = inputAmount;
             outputMultiplier = inputMultiplier;
+            outputResidual = inputResidual;
         }
     }
 }

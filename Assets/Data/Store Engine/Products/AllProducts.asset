@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9056d9c2b2c48545840679fed1bc3ab, type: 3}
   m_Name: AllProducts
   m_EditorClassIdentifier: 
-  allProducts: []
+  allProducts:
+  - {fileID: 11400000, guid: 18dfbdb5cb832d24b828dff224d2ed12, type: 2}
+  - {fileID: 11400000, guid: 5fd786fbf76e8104591e04320b574d77, type: 2}
+  - {fileID: 11400000, guid: 9890c0ac5f1a4794394ca4c1426f3e3d, type: 2}
+  directory: Saves

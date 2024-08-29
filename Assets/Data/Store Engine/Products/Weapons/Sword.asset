@@ -18,7 +18,7 @@ MonoBehaviour:
   description: 
   productType: 1
   happiness: 0
-  amount: 0
+  amount: 11
   outputPerTick: 0
   outputMultiplier: 0
   space: 0
