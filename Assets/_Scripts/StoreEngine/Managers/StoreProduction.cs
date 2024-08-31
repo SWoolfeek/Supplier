@@ -1,19 +1,28 @@
-using Sirenix.OdinInspector;
-
 namespace StoreEngine
 {
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+    
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Sirenix.OdinInspector;
 
     public class StoreProduction : MonoBehaviour
     {
         [SerializeField] private AllProducts allProducts;
+        [SerializeField] private List<ProductUi> allUiProducts;
         
 #if UNITY_EDITOR
         [SerializeField] private GameObject prefabUiProducts;
         [SerializeField] private Transform parentForUiProducts;
 #endif
+        [ReadOnly]
+        [SerializeField] private int freeProduction;
+        [HideInInspector]
+        public int tempFreeProduction;
+        private int maxProduction;
         
         private Product[] _products;
         private SaveProducts _saveProducts;
@@ -22,6 +31,21 @@ namespace StoreEngine
         {
             _products = products;
             _saveProducts = saveProducts;
+
+            maxProduction = allUiProducts.Count * 100;
+            freeProduction = maxProduction;
+
+            foreach (Product product in allProducts.allProducts)
+            {
+                freeProduction -= product.outputMultiplier;
+            }
+
+            tempFreeProduction = freeProduction;
+
+            foreach (ProductUi productUi in allUiProducts)
+            {
+                productUi.Initialize();
+            }
         }
         
         public void StartProduction()
@@ -38,6 +62,12 @@ namespace StoreEngine
             time = Time.time - time;
             Debug.Log("End production. " + time);
         }
+
+        public void ChangedOutputMultiplier(Product product)
+        {
+            freeProduction = tempFreeProduction;
+            _saveProducts.AddModifiedProduct(product.productName,product.amount,product.outputMultiplier,product.outputResidual);
+        }
         
         
 #if UNITY_EDITOR
@@ -48,8 +78,18 @@ namespace StoreEngine
             
             foreach (Product product in allProducts.allProducts)
             {
-                GameObject newProductUi = Instantiate(prefabUiProducts, parentForUiProducts);
-                newProductUi.GetComponent<ProductUi>().EditorInstantiate(product);
+                //GameObject newProductUi = Instantiate(prefabUiProducts, parentForUiProducts);
+                GameObject newProductUi = PrefabUtility.InstantiatePrefab(prefabUiProducts) as GameObject;
+                newProductUi.transform.parent = parentForUiProducts;
+                newProductUi.transform.localScale = new Vector3(1,1,1);
+                newProductUi.GetComponent<ProductUi>().EditorInstantiate(product, this);
+            }
+
+            allUiProducts = new List<ProductUi>();
+            
+            foreach (Transform child in parentForUiProducts)
+            {
+                allUiProducts.Add(child.GetComponent<ProductUi>());
             }
         }
 #endif
