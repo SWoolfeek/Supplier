@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1d94f285f4c89429f95fbdca21c5c9, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  icon: {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
-  productName: Spear
+  icon: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
+  productName: Speart
   Description: 
   description: 
   productType: 1
   happiness: 0
-  amount: 28
-  outputPerTick: 1
-  outputMultiplier: 2
+  amount: 50
+  outputPerTick: 0.5
+  outputMultiplier: 100
   space: 0
   outputResidual: 0
   damage: 0

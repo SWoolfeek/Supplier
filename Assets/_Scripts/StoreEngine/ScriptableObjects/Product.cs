@@ -33,8 +33,8 @@ namespace StoreEngine
         [MinValue(0f)]
         public float outputPerTick;
         [BoxGroup("Store data")]
-        [Range(0,2f)]
-        public float outputMultiplier;
+        [Range(0,200)] [ReadOnly]
+        public int outputMultiplier = 100;
         [BoxGroup("Store data")]
         [MinValue(0f)]
         public float space;

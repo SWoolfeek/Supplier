@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+
 namespace StoreEngine
 {
     using System.Collections;
@@ -6,6 +8,13 @@ namespace StoreEngine
 
     public class StoreProduction : MonoBehaviour
     {
+        [SerializeField] private AllProducts allProducts;
+        
+#if UNITY_EDITOR
+        [SerializeField] private GameObject prefabUiProducts;
+        [SerializeField] private Transform parentForUiProducts;
+#endif
+        
         private Product[] _products;
         private SaveProducts _saveProducts;
 
@@ -29,5 +38,20 @@ namespace StoreEngine
             time = Time.time - time;
             Debug.Log("End production. " + time);
         }
+        
+        
+#if UNITY_EDITOR
+        [Button]
+        public void AddUiProducts()
+        {
+            allProducts.UpdateList();
+            
+            foreach (Product product in allProducts.allProducts)
+            {
+                GameObject newProductUi = Instantiate(prefabUiProducts, parentForUiProducts);
+                newProductUi.GetComponent<ProductUi>().EditorInstantiate(product);
+            }
+        }
+#endif
     }
 }

@@ -14,7 +14,7 @@ namespace StoreEngine
         private string _directory = "Saves";
         private Dictionary<string, ProductSaveData> _saveData;
         
-        public void AddModifiedProduct(string productName, int amount, float outputMultiplier, float outputResidual, bool withSave = true)
+        public void AddModifiedProduct(string productName, int amount, int outputMultiplier, float outputResidual, bool withSave = true)
         {
             if (_saveData.ContainsKey(productName))
             {
@@ -108,10 +108,10 @@ namespace StoreEngine
     {
         public string productName;
         public int amount;
-        public float outputMultiplier;
+        public int outputMultiplier;
         public float outputResidual;
 
-        public ProductSaveData(string inputName, int inputAmount, float inputMultiplier, float inputResidual)
+        public ProductSaveData(string inputName, int inputAmount, int inputMultiplier, float inputResidual)
         {
             productName = inputName;
             amount = inputAmount;
