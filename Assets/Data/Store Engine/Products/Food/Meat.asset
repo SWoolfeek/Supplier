@@ -18,9 +18,9 @@ MonoBehaviour:
   description: 
   productType: 0
   happiness: 0
-  amount: 1000
-  outputPerTick: 0
-  outputMultiplier: 0.25
+  amount: 1118
+  outputPerTick: 5
+  outputMultiplier: 1.312
   space: 0
-  outputResidual: 0
+  outputResidual: 0.08000326
   energyValue: 0
