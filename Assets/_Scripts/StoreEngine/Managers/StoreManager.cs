@@ -12,9 +12,13 @@ namespace StoreEngine
     public class StoreManager : MonoBehaviour
     {
         [SerializeField] private AllProducts allProducts;
+        [SerializeField] private StoreParameters storeParameters;
+        
         
         [Header("Managers")]
         [SerializeField] private StoreProduction storeProduction;
+        [SerializeField] private StoreUiManager storeUi;
+        [SerializeField] private StoreEventManager storeEvents;
         
         private Dictionary<string, Product> productsDictionary = new Dictionary<string, Product>();
         private SaveProducts _saveProducts = new SaveProducts();
@@ -35,11 +39,12 @@ namespace StoreEngine
             {
                 if (productsDictionary.ContainsKey(product))
                 {
-                    _saveProducts.ModifyProduct(productsDictionary[product]);
+                    _saveProducts.ModifyProduct(productsDictionary[product], storeParameters.minProductionRecoveryTime);
                 }
             }
             
-            storeProduction.Initialization(productsDictionary.Values.ToArray(), _saveProducts);
+            storeUi.Initialize(this, storeEvents);
+            storeProduction.Initialization(this, storeUi,storeEvents,productsDictionary.Values.ToArray(), _saveProducts);
         }
 
         private void TickEnded()
@@ -52,6 +57,10 @@ namespace StoreEngine
         {
             _saveProducts.SaveData();
         }
-        
+
+        private void OnDisable()
+        {
+            GlobalEventManager.onTick.RemoveListener(TickEnded);
+        }
     }
 }

@@ -1,9 +1,12 @@
+using System;
+
 namespace StoreEngine
 {
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
     
+    using UnityEngine.Events;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -24,11 +27,25 @@ namespace StoreEngine
         public int tempFreeProduction;
         private int maxProduction;
         
+        // Managers.
+        private StoreManager _storeManager;
+        private StoreUiManager _storeUi;
+        private StoreEventManager _storeEvents;
+
+        // Events.
+        [HideInInspector]
+        public UnityEvent OnChangesAccepted = new UnityEvent();
+
+        private bool _changes;
         private Product[] _products;
         private SaveProducts _saveProducts;
 
-        public void Initialization(Product[] products, SaveProducts saveProducts)
+        public void Initialization(StoreManager storeManager, StoreUiManager storeUi, StoreEventManager storeEvents, Product[] products, SaveProducts saveProducts)
         {
+            _storeManager = storeManager;
+            _storeUi = storeUi;
+            _storeEvents = storeEvents;
+            
             _products = products;
             _saveProducts = saveProducts;
 
@@ -50,24 +67,43 @@ namespace StoreEngine
         
         public void StartProduction()
         {
-            //Debug.Log("Start production.");
-            float time = Time.time;
             foreach (Product product in _products)
             {
                 product.TickProduction();
-                _saveProducts.AddModifiedProduct(product.productName,product.amount,product.outputMultiplier,product.outputResidual, false);
+                _saveProducts.AddModifiedProduct(product.productName,product.amount,product.outputPerTick,product.outputMultiplier,product.outputResidual, product.outputMultiplierRecalculation, product.startOutputMultiplier, product.targetOutputMultiplier, product.ticksDone, product.ticksTarget, false);
             }
             
             _saveProducts.SaveData();
-            time = Time.time - time;
-            Debug.Log("End production. " + time);
+            _storeEvents.UpdateUiValues();
+        }
+
+        public void ChangeProduction(int inputChange)
+        {
+            tempFreeProduction += inputChange;
+            _storeUi.UnsavedChanges(true);
+        }
+
+        public void AcceptChanges(bool state)
+        {
+            _storeUi.UnsavedChanges(false);
+            _storeEvents.AcceptChanges(state);
+            
+            if (state)
+            {
+                freeProduction = tempFreeProduction;
+            }
+            else
+            {
+                tempFreeProduction = freeProduction;
+            }
+            
         }
 
         public void ChangedOutputMultiplier(Product product)
         {
-            freeProduction = tempFreeProduction;
-            _saveProducts.AddModifiedProduct(product.productName,product.amount,product.outputMultiplier,product.outputResidual);
+            _saveProducts.AddModifiedProduct(product.productName,product.amount, product.outputPerTick,product.outputMultiplier,product.outputResidual, product.outputMultiplierRecalculation, product.startOutputMultiplier, product.targetOutputMultiplier, product.ticksDone, product.ticksTarget);
         }
+        
         
         
 #if UNITY_EDITOR
@@ -75,6 +111,7 @@ namespace StoreEngine
         public void AddUiProducts()
         {
             allProducts.UpdateList();
+            StoreEventManager storeEvent = GetComponent<StoreEventManager>();
             
             foreach (Product product in allProducts.allProducts)
             {
@@ -82,7 +119,7 @@ namespace StoreEngine
                 GameObject newProductUi = PrefabUtility.InstantiatePrefab(prefabUiProducts) as GameObject;
                 newProductUi.transform.parent = parentForUiProducts;
                 newProductUi.transform.localScale = new Vector3(1,1,1);
-                newProductUi.GetComponent<ProductUi>().EditorInstantiate(product, this);
+                newProductUi.GetComponent<ProductUi>().EditorInstantiate(product, storeEvent,this);
             }
 
             allUiProducts = new List<ProductUi>();
@@ -93,5 +130,10 @@ namespace StoreEngine
             }
         }
 #endif
+
+        private void OnDisable()
+        {
+            
+        }
     }
 }

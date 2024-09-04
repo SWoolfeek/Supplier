@@ -14,18 +14,16 @@ namespace StoreEngine
         private string _directory = "Saves";
         private Dictionary<string, ProductSaveData> _saveData;
         
-        public void AddModifiedProduct(string productName, int amount, int outputMultiplier, float outputResidual, bool withSave = true)
+        public void AddModifiedProduct(string productName, int amount, float outputPerTick, int outputMultiplier, float outputResidual, bool outputMultiplierRecalculation, int startOutputMultiplier, int targetOutputMultiplier, int ticksDone, int inputTicksTarget, bool withSave = true)
         {
             if (_saveData.ContainsKey(productName))
             {
-                _saveData[productName] = new ProductSaveData(productName, amount, outputMultiplier, outputResidual);
+                _saveData[productName] = new ProductSaveData(productName, amount, outputPerTick, outputMultiplier, outputResidual,outputMultiplierRecalculation, startOutputMultiplier, targetOutputMultiplier, ticksDone, inputTicksTarget);
             }
             else
             {
-                _saveData.Add(productName, new ProductSaveData(productName,amount,outputMultiplier, outputResidual));
+                _saveData.Add(productName, new ProductSaveData(productName, amount, outputPerTick, outputMultiplier, outputResidual,outputMultiplierRecalculation, startOutputMultiplier, targetOutputMultiplier, ticksDone, inputTicksTarget));
             }
-
-            Debug.Log(productName);
 
             if (withSave)
             {
@@ -46,13 +44,10 @@ namespace StoreEngine
             
             foreach (string key in _saveData.Keys)
             {
-                Debug.Log(key);
                 saveList.productsSaveData.Add(_saveData[key]);
-                Debug.Log(JsonUtility.ToJson(_saveData[key]));
             }
             
             var file = File.CreateText(savePath);
-            Debug.Log(JsonUtility.ToJson(saveList));
             file.WriteLine(JsonUtility.ToJson(saveList));
             
             file.Close();
@@ -85,10 +80,20 @@ namespace StoreEngine
             return _saveData.Keys.ToArray();
         }
 
-        public void ModifyProduct(Product product)
+        public void ModifyProduct(Product product, int minTick)
         {
             if (_saveData.ContainsKey(product.productName))
             {
+                ProductSaveData data = _saveData[product.productName];
+                if (data.outputMultiplierRecalculation)
+                {
+                    product.LoadData(data.amount, data.outputPerTick,data.outputMultiplier, data.outputResidual, data.outputMultiplierRecalculation, data.startOutputMultiplier,data.targetOutputMultiplier,data.ticksDone, data.ticksTarget, minTick);
+                }
+                else
+                {
+                    product.LoadData(data.amount, data.outputPerTick,data.outputMultiplier, data.outputResidual, data.outputMultiplierRecalculation);
+                }
+                
                 product.amount = _saveData[product.productName].amount;
                 product.outputMultiplier = _saveData[product.productName].outputMultiplier;
                 product.outputResidual = _saveData[product.productName].outputResidual;
@@ -108,15 +113,32 @@ namespace StoreEngine
     {
         public string productName;
         public int amount;
+        public float outputPerTick;
         public int outputMultiplier;
         public float outputResidual;
+        
+        public bool outputMultiplierRecalculation;
+        public int startOutputMultiplier;
+        public int targetOutputMultiplier;
+        public int ticksDone;
+        public int ticksTarget;
 
-        public ProductSaveData(string inputName, int inputAmount, int inputMultiplier, float inputResidual)
+        public ProductSaveData(string inputName, int inputAmount, float inputOutputPerTick, int inputMultiplier, float inputResidual,bool inputOutputMultiplierRecalculation, int inputStartOutputMultiplier = 0, int inputTargetOutputMultiplier = 0, int inputTicksDone = 0, int inputTicksTarget = 0)
         {
             productName = inputName;
             amount = inputAmount;
+            outputPerTick = inputOutputPerTick;
             outputMultiplier = inputMultiplier;
             outputResidual = inputResidual;
+            outputMultiplierRecalculation = inputOutputMultiplierRecalculation;
+            
+            if (inputOutputMultiplierRecalculation)
+            {
+                startOutputMultiplier = inputStartOutputMultiplier;
+                targetOutputMultiplier = inputTargetOutputMultiplier;
+                ticksDone = inputTicksDone;
+                ticksTarget = inputTicksTarget;
+            }
         }
     }
 }
