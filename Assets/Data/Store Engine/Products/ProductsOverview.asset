@@ -12,4 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafae07218e05f34a9b3a49b16882c4b, type: 3}
   m_Name: ProductsOverview
   m_EditorClassIdentifier: 
-  StoreProducts: []
+  products:
+  - {fileID: 11400000, guid: 18dfbdb5cb832d24b828dff224d2ed12, type: 2}
+  - {fileID: 11400000, guid: 5fd786fbf76e8104591e04320b574d77, type: 2}
+  - {fileID: 0}
+  data:
+  - icon: {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
+    name: Spear
+    type: 1
+    amount: 0
+    outputPerTick: 0
+    outputMultiplier: 0
+    space: 0
+  - icon: {fileID: 10910, guid: 0000000000000000f000000000000000, type: 0}
+    name: Sword
+    type: 1
+    amount: 0
+    outputPerTick: 0
+    outputMultiplier: 0
+    space: 0
+  - icon: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+    name: Meat
+    type: 1
+    amount: 0
+    outputPerTick: 0
+    outputMultiplier: 0
+    space: 0

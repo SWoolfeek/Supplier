@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7dc4b944775ba84ba693cb9c91d75ca, type: 3}
   m_Name: SystemParametes
   m_EditorClassIdentifier: 
-  timeBetweenTicks: 1
+  timeBetweenTicks: 5

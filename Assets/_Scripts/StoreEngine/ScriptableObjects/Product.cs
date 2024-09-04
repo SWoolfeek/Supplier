@@ -9,9 +9,6 @@ namespace StoreEngine
 {
     public class Product : ScriptableObject
     {
-        protected const string LEFT_VERTICAL_GROUP             = "Split/Left";
-        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
-        
         // Product description.
         [BoxGroup("Properties")]
         [HideLabel, PreviewField(60)]
@@ -36,15 +33,115 @@ namespace StoreEngine
         [MinValue(0f)]
         public float outputPerTick;
         [BoxGroup("Store data")]
-        [Range(0,2f)]
-        public float outputMultiplier;
+        [Range(0,200)] [ReadOnly]
+        public int outputMultiplier = 100; // real.
         [BoxGroup("Store data")]
         [MinValue(0f)]
         public float space;
 
         // Data for calculation;
         [SerializeField] [HideInInspector]
-        private float outputResidual;
+        public float outputResidual;
+        [HideInInspector]
+        public int startOutputMultiplier;
+        [HideInInspector]
+        public int targetOutputMultiplier;
+        [HideInInspector]
+        public int ticksDone;
+        [HideInInspector]
+        public int ticksTarget;
+        [HideInInspector]
+        public bool outputMultiplierRecalculation;
+
+        private int _perTick;
+        private int _minTick;
+
+        public void LoadData(int inputAmount, float inputOutputPerTick, int inputOutputMultiplier, float inputOutputResidual, bool inputOutputMultiplierRecalculation, int inputStartOutputMultiplier = 0, int inputTargetOutputMultiplier = 0, int inputTicksDone = 0, int inputTicksTarget = 0, int inputMinTick = 0)
+        {
+            amount = inputAmount;
+            outputPerTick = inputOutputPerTick;
+            outputMultiplier = inputOutputMultiplier;
+            outputResidual = inputOutputResidual;
+            
+            if (inputOutputMultiplierRecalculation)
+            {
+                outputMultiplierRecalculation = inputOutputMultiplierRecalculation;
+                startOutputMultiplier = inputStartOutputMultiplier;
+                targetOutputMultiplier = inputTargetOutputMultiplier;
+                ticksDone = inputTicksDone;
+                ticksTarget = inputTicksTarget;
+                CalculatePerTick(inputMinTick);
+            }
+        }
+        
+        public void TickProduction()
+        {
+            if (outputPerTick * outputMultiplier + outputResidual > 1)
+            {
+                int newProduct = (int)(outputPerTick * outputMultiplier + outputResidual);
+                amount += newProduct;
+                outputResidual = (outputPerTick * outputMultiplier + outputResidual) - newProduct;
+            }
+            else
+            {
+                outputResidual += outputPerTick * outputMultiplier;
+            }
+
+            if (outputMultiplierRecalculation)
+            {
+                RecalculateProduction();
+            }
+        }
+
+        public void StartProductionRecalculation(int target, int ticksMax, int minTick)
+        {
+            outputMultiplierRecalculation = true;
+            targetOutputMultiplier = target;
+            startOutputMultiplier = outputMultiplier;
+            ticksTarget = ticksMax;
+            ticksDone = 0;
+            CalculatePerTick(minTick);
+        }
+
+        private void CalculatePerTick(int minTick)
+        {
+            int absDifference = Mathf.Abs(targetOutputMultiplier - startOutputMultiplier);
+            int difference = targetOutputMultiplier - startOutputMultiplier;
+            _minTick = minTick;
+            
+            if (absDifference < minTick)
+            {
+                ticksTarget = minTick;
+                _perTick = difference;
+            }
+            else if (absDifference < ticksTarget)
+            {
+                ticksTarget = difference;
+                _perTick = (int)(1 * Mathf.Sign(difference));
+            }
+            else
+            {
+                _perTick = difference / ticksTarget;
+            }
+        }
+
+        private void RecalculateProduction()
+        {
+            if(ticksTarget - ticksDone <= _minTick)
+            {
+                ticksDone++;
+                if (ticksTarget == ticksDone)
+                {
+                    outputMultiplier = targetOutputMultiplier;
+                    outputMultiplierRecalculation = false;
+                }
+            }
+            else
+            {
+                outputMultiplier += _perTick;
+                ticksDone++;
+            }
+        }
     }
 
     public enum ProductType
