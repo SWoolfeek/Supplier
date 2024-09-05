@@ -1,5 +1,6 @@
 using System;
 
+
 namespace StoreEngine
 {
 #if UNITY_EDITOR
@@ -20,6 +21,7 @@ namespace StoreEngine
 #if UNITY_EDITOR
         [SerializeField] private GameObject prefabUiProducts;
         [SerializeField] private Transform parentForUiProducts;
+        [SerializeField] private PlanerEngine.NewOrderManager newOrderManager;
 #endif
         [ReadOnly]
         [SerializeField] private int freeProduction;
@@ -128,6 +130,8 @@ namespace StoreEngine
             {
                 allUiProducts.Add(child.GetComponent<ProductUi>());
             }
+            
+            newOrderManager.AddProductsInOrderCatalogue();
         }
 #endif
 

@@ -1,3 +1,5 @@
+using PlanerEngine;
+
 namespace CoreSystems
 {
     using UnityEngine;
@@ -10,6 +12,7 @@ namespace CoreSystems
         [Header("Managers")] 
         [SerializeField] private GameUiManager gameUiManager;
         [SerializeField] private StoreManager storeManager;
+        [SerializeField] private PlanerManager planerManager;
         
 
         // Start is called before the first frame update
@@ -17,6 +20,7 @@ namespace CoreSystems
         {
             gameUiManager.Initialization();
             storeManager.StartStore();
+            planerManager.StartPlaner();
             tickManager.StartTick();
         }
     }
