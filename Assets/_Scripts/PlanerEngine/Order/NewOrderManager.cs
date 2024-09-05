@@ -19,16 +19,17 @@ namespace PlanerEngine
         [SerializeField] private Transform parentForUiProductsInOrder;
 #endif
 
-        // Start is called before the first frame update
-        void Start()
+        public void Initialization()
         {
-
+            UpdateAllProductsInOrder();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void UpdateAllProductsInOrder()
         {
-
+            foreach (ProductInOrder productInOrder in productsInOrder)
+            {
+                productInOrder.Initialize();
+            }
         }
 
 

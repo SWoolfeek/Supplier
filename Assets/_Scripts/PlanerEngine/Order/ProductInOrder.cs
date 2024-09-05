@@ -18,7 +18,7 @@ namespace PlanerEngine
         [SerializeField] private TMP_Text productName;
         [SerializeField] private TMP_Text totalAmount;
         [SerializeField] private TMP_Text chosenAmount;
-        [SerializeField] private TMP_Text calculatedWeight;
+        [SerializeField] private TMP_Text calculatedSize;
         [SerializeField] private Slider slider;
         
         public void Initialize()
@@ -27,6 +27,12 @@ namespace PlanerEngine
             productName.text = product.productName;
             totalAmount.text = product.amount.ToString();
             slider.maxValue = product.amount;
+        }
+
+        public void OnSliderChanged()
+        {
+            chosenAmount.text = slider.value.ToString();
+            calculatedSize.text = (product.space * slider.value).ToString();
         }
     }
 }

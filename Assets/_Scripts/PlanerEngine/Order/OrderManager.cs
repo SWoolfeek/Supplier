@@ -15,7 +15,7 @@ namespace PlanerEngine
         
         public void Initialization()
         {
-
+            newOrderManager.Initialization();
         }
 
         public void CreateOrder()

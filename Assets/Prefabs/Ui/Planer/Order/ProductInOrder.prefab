@@ -91,7 +91,7 @@ MonoBehaviour:
   productName: {fileID: 1243847758113096918}
   totalAmount: {fileID: 8108018613363232065}
   chosenAmount: {fileID: 2694915352149526472}
-  calculatedWeight: {fileID: 2242330103509173749}
+  calculatedSize: {fileID: 2242330103509173749}
   slider: {fileID: 3158665151454249497}
 --- !u!1 &1600859195680324584
 GameObject:
@@ -590,7 +590,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4258961686598168359}
+        m_TargetAssemblyTypeName: PlanerEngine.ProductInOrder, Assembly-CSharp
+        m_MethodName: OnSliderChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3388783108996713692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1325,7 @@ GameObject:
   - component: {fileID: 5665800753891724659}
   - component: {fileID: 2242330103509173749}
   m_Layer: 0
-  m_Name: Weight
+  m_Name: Size
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
