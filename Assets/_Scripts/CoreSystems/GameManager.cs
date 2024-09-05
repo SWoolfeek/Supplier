@@ -1,5 +1,3 @@
-
-
 namespace CoreSystems
 {
     using UnityEngine;
@@ -9,14 +7,15 @@ namespace CoreSystems
     {
         [Header("Core")] [SerializeField] private TickManager tickManager;
 
-        [Header("Store Engine")] 
-        
+        [Header("Managers")] 
+        [SerializeField] private GameUiManager gameUiManager;
         [SerializeField] private StoreManager storeManager;
         
 
         // Start is called before the first frame update
         void Start()
         {
+            gameUiManager.Initialization();
             storeManager.StartStore();
             tickManager.StartTick();
         }
