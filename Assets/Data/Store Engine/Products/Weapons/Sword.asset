@@ -18,9 +18,14 @@ MonoBehaviour:
   description: 
   productType: 1
   happiness: 0
-  amount: 200
+  amount: 4765
   outputPerTick: 1
-  outputMultiplier: 100
-  space: 0
+  outputMultiplier: 151
+  space: 10
   outputResidual: 0
+  startOutputMultiplier: 126
+  targetOutputMultiplier: 151
+  ticksDone: 10
+  ticksTarget: 10
+  outputMultiplierRecalculation: 0
   damage: 0
