@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7560e7cd9c05a44e8bf9709829e3c17, type: 3}
+  m_Name: AllRoads
+  m_EditorClassIdentifier: 
+  roads:
+  - roadName: a0a1
+    startNode: a0
+    endNode: a1
+    length: 5
+  - roadName: a1a2
+    startNode: a1
+    endNode: a2
+    length: 2
+  - roadName: a2a3
+    startNode: a2
+    endNode: a3
+    length: 3.5
+  - roadName: a1b1
+    startNode: a1
+    endNode: b1
+    length: 21
+  - roadName: a0c1
+    startNode: a0
+    endNode: c1
+    length: 0.5
+  - roadName: c1c2
+    startNode: c1
+    endNode: c2
+    length: 1.25

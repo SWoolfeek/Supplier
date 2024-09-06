@@ -1,4 +1,5 @@
 using PlanerEngine;
+using RoadEngine;
 
 namespace CoreSystems
 {
@@ -12,6 +13,7 @@ namespace CoreSystems
         [Header("Managers")] 
         [SerializeField] private GameUiManager gameUiManager;
         [SerializeField] private StoreManager storeManager;
+        [SerializeField] private RoadManager roadManager;
         [SerializeField] private PlanerManager planerManager;
         
 
@@ -20,6 +22,7 @@ namespace CoreSystems
         {
             gameUiManager.Initialization();
             storeManager.StartStore();
+            roadManager.StartRoad();
             planerManager.StartPlaner();
             tickManager.StartTick();
         }
