@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 #if UNITY_EDITOR
 namespace ProductMenu
 {

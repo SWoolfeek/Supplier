@@ -1,21 +1,10 @@
 namespace RoadEngine
 {
-    using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
 
     public class Route
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public List<Road> roads = new List<Road>();
+        public float length;
     }
 }
