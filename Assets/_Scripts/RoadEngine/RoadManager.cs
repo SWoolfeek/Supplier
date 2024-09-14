@@ -7,7 +7,7 @@ namespace RoadEngine
     public class RoadManager : MonoBehaviour
     {
         [SerializeField] private AllRoads allRoads;
-        [SerializeField] private RouteManager routeManager;
+        [SerializeField] private RouteCreationManager routeManager;
         
         public void StartRoad()
         {

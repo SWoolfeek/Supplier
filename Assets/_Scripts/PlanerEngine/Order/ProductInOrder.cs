@@ -32,17 +32,28 @@ namespace PlanerEngine
         public void Initialize(NewOrderManager newOrderManager)
         {
             _manager = newOrderManager;
+            UpdateValues();
         }
 
-        public void UpdateValues()
+        private void UpdateValues()
         {
             icon.texture = product.icon;
             productName.text = product.productName;
             totalAmount.text = product.amount.ToString();
             slider.maxValue = product.amount;
+        }
 
+        public void RestartWindow()
+        {
+            UpdateValues();
+            
             _orderProduct = new Product();
             _orderProduct.productName = product.productName;
+
+            slider.interactable = true;
+            slider.value = 0;
+            rejectButton.SetActive(false);
+            ActivateApproval(false);
         }
 
         public void OnSliderChanged()

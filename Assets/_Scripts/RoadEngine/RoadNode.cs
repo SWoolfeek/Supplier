@@ -21,7 +21,7 @@ namespace RoadEngine
         public Color basicColor = Color.white;
         public Color activeColor = Color.green;
        
-        private RouteManager _manager;
+        private RouteCreationManager _manager;
         private bool _isActive;
         
         
@@ -32,7 +32,7 @@ namespace RoadEngine
             End = 2
         }
 
-        public void Initialize(RouteManager inputManager)
+        public void Initialize(RouteCreationManager inputManager)
         {
             _manager = inputManager;
             _manager.onDisableNodes.AddListener(DeactivateNode);
@@ -63,9 +63,12 @@ namespace RoadEngine
         {
             if (_isActive)
             {
+                Debug.Log(nodeName + " - Deactivated");
                 _isActive = false;
                 _sprite.color = basicColor;
             }
+            
+            Debug.Log(nodeName + " - not active");
         }
         
 #if UNITY_EDITOR
@@ -75,7 +78,7 @@ namespace RoadEngine
         }
 #endif
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _manager.onDisableNodes.RemoveListener(DeactivateNode);
         }

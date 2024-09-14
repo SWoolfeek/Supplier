@@ -1,3 +1,5 @@
+using RoadEngine;
+
 namespace PlanerEngine
 {
     
@@ -10,6 +12,7 @@ namespace PlanerEngine
         [Header("Managers")] 
         [SerializeField] private OrderManager orderManager;
         [SerializeField] private PlanerUiManager uiManager;
+        [SerializeField] private RouteCreationManager routeCreationManager;
 
         private List<Plan> _plans;
         private Plan _currentPlan;
@@ -39,6 +42,8 @@ namespace PlanerEngine
                 Debug.Log(product.productName + " - " + product.amount);
             }
             Debug.Log("Total size: " + _currentPlan.order.totalSize);
+            
+            routeCreationManager.StartRouteCreation();
         }
 
         public void AddRoute(RoadEngine.Route route)

@@ -6,5 +6,11 @@ namespace RoadEngine
     {
         public List<Road> roads = new List<Road>();
         public float length;
+
+        public Route(List<Road> inputRoads, float inputLength)
+        {
+            roads = inputRoads;
+            length = inputLength;
+        }
     }
 }

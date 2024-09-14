@@ -53,8 +53,9 @@ namespace PlanerEngine
         {
             foreach (ProductInOrder productInOrder in productsInOrder)
             {
-                productInOrder.UpdateValues();
+                productInOrder.RestartWindow();
             }
+            applyButton.SetActive(false);
             NewOrder();
         }
         

@@ -1,14 +1,12 @@
-using System.Linq;
-
 namespace RoadEngine
 {
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using Sirenix.OdinInspector;
     using UnityEngine.Events;
+    using System.Linq;
     
-    public class RouteManager : MonoBehaviour
+    public class RouteCreationManager : MonoBehaviour
     {
         [SerializeField] [ReadOnly]
         private List<string> route;
@@ -20,6 +18,12 @@ namespace RoadEngine
         
         [SerializeField] private AllRoads allRoads;
         [SerializeField] private List<RoadNode> nodes;
+        
+        [Header("Managers")] 
+        [SerializeField] private PlanerEngine.PlanerManager planerManager;
+        
+        [Header("Ui elements")] 
+        [SerializeField] private GameObject applyButton;
         
         [HideInInspector]
         public UnityEvent onDisableNodes = new UnityEvent();
@@ -42,9 +46,17 @@ namespace RoadEngine
             }
         }
 
+        public void FinishRoute()
+        {
+            applyButton.SetActive(false);
+            planerManager.AddRoute(new Route(roads, totalLength));
+        }
+
         [Button]
         public void StartRouteCreation()
         {
+            Debug.Log("StartRouteCreation");
+            _routeFinished = false;
             _routeCreation = true;
             route = new List<string>();
             // Road. Need to be extended when system will be finished.
@@ -65,7 +77,7 @@ namespace RoadEngine
                 else
                 {
                     onDisableNodes.Invoke();
-                    _routeFinished = true;
+                    RouteFinished(true);
                     Debug.Log("Route is finished.");
                 }
 
@@ -76,6 +88,12 @@ namespace RoadEngine
                 
                 roads.Add(road);
             }
+        }
+
+        private void RouteFinished(bool state)
+        {
+            _routeFinished = true;
+            applyButton.SetActive(true);
         }
 
         public void RemoveNode(string nodeName)
@@ -110,6 +128,11 @@ namespace RoadEngine
                         
                     }
 
+                    if (_routeFinished)
+                    {
+                        RouteFinished(false);
+                    }
+
                     ActivateNodes(_nodesDict[route.Last()].nextNodes);
                 }
             }
@@ -117,6 +140,7 @@ namespace RoadEngine
         
         private void ActivateNodes(List<RoadNode> nodesToActivate)
         {
+            Debug.Log("ActivateNodes");
             onDisableNodes.Invoke();
             
             foreach (RoadNode node in nodesToActivate)
