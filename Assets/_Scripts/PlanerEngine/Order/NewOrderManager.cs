@@ -1,3 +1,5 @@
+using TMPro;
+
 namespace PlanerEngine
 {
     using System.Collections;
@@ -9,7 +11,8 @@ namespace PlanerEngine
     
     public class NewOrderManager : MonoBehaviour
     {
-
+        private OrderManager _manager;
+        
         [SerializeField] private StoreEngine.AllProducts allProducts;
         [SerializeField] private List<ProductInOrder> productsInOrder;
 
@@ -19,17 +22,97 @@ namespace PlanerEngine
         [SerializeField] private Transform parentForUiProductsInOrder;
 #endif
 
-        public void Initialization()
+        [Header("Ui elements")] 
+        [SerializeField] private TMP_Text orderSizeText;
+        [SerializeField] private GameObject applyButton;
+
+        private Dictionary<string, int> _indexesInOrder;
+        private float _orderSize;
+        private Order _order;
+
+        public void Initialization(OrderManager manager)
         {
-            UpdateAllProductsInOrder();
+            _manager = manager;
+            InitializeAllProductsInOrder();
         }
 
-        private void UpdateAllProductsInOrder()
+        public void ApplyOrder()
+        {
+            _manager.OrderCompleted(_order);
+        }
+
+        private void InitializeAllProductsInOrder()
         {
             foreach (ProductInOrder productInOrder in productsInOrder)
             {
-                productInOrder.Initialize();
+                productInOrder.Initialize(this);
             }
+        }
+        
+        public void UpdateAllProductsInOrder()
+        {
+            foreach (ProductInOrder productInOrder in productsInOrder)
+            {
+                productInOrder.UpdateValues();
+            }
+            NewOrder();
+        }
+        
+        
+        private void NewOrder()
+        {
+            _order = new Order();
+            _orderSize = 0;
+            orderSizeText.text = _orderSize.ToString();
+            _indexesInOrder = new Dictionary<string, int>();
+        }
+
+        public void AddProduct(Product product)
+        {
+            _order.products.Add(product);
+            _indexesInOrder.Add(product.productName, _order.products.Count - 1);
+            ChangeTotalSize(product.size);
+            applyButton.SetActive(true);
+        }
+
+        public void RemoveProduct(Product product)
+        {
+            if (_indexesInOrder.ContainsKey(product.productName))
+            {
+                int productIndex = _indexesInOrder[product.productName];
+                
+                if (productIndex < _order.products.Count - 1)
+                {
+                    for (int i = productIndex + 1; i < _order.products.Count; i++)
+                    {
+                        _indexesInOrder[_order.products[i].productName] = i - 1;
+                    }
+                }
+
+                ChangeTotalSize(-product.size);
+                _order.products.RemoveAt(productIndex);
+                _indexesInOrder.Remove(product.productName);
+
+                if (_order.products.Count > 0)
+                {
+                    applyButton.SetActive(true);
+                }
+                else
+                {
+                    applyButton.SetActive(false);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Such product is not present in Order!");
+            }
+        }
+
+        private void ChangeTotalSize(float input)
+        {
+            _orderSize += input;
+            _order.totalSize = _orderSize;
+            orderSizeText.text = _orderSize.ToString();
         }
 
 
@@ -43,7 +126,7 @@ namespace PlanerEngine
                 productInOrder.transform.localScale = new Vector3(1, 1, 1);
                 productInOrder.name = product.productName;
                 productInOrder.GetComponent<ProductInOrder>().product = product;
-                productInOrder.GetComponent<ProductInOrder>().Initialize();
+                productInOrder.GetComponent<ProductInOrder>().Initialize(this);
             }
 
             productsInOrder = new List<ProductInOrder>();

@@ -9,7 +9,7 @@ namespace PlanerEngine
     public class Order
     {
         public float totalSize;
-        public List<Product> products;
+        public List<Product> products = new List<Product>();
         public bool packed;
         public int ticksToPrepare;
     }

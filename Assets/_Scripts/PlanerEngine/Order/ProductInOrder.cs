@@ -10,6 +10,8 @@ namespace PlanerEngine
 
     public class ProductInOrder : MonoBehaviour
     {
+        private NewOrderManager _manager;
+        
         [ReadOnly]
         public StoreEngine.Product product;
 
@@ -20,19 +22,78 @@ namespace PlanerEngine
         [SerializeField] private TMP_Text chosenAmount;
         [SerializeField] private TMP_Text calculatedSize;
         [SerializeField] private Slider slider;
+        [SerializeField] private GameObject approvalButton;
+        [SerializeField] private GameObject rejectButton;
+
+        private bool _approvalActive;
+        private Product _orderProduct;
         
-        public void Initialize()
+        
+        public void Initialize(NewOrderManager newOrderManager)
+        {
+            _manager = newOrderManager;
+        }
+
+        public void UpdateValues()
         {
             icon.texture = product.icon;
             productName.text = product.productName;
             totalAmount.text = product.amount.ToString();
             slider.maxValue = product.amount;
+
+            _orderProduct = new Product();
+            _orderProduct.productName = product.productName;
         }
 
         public void OnSliderChanged()
         {
             chosenAmount.text = slider.value.ToString();
             calculatedSize.text = (product.space * slider.value).ToString();
+
+            if (slider.value > 0)
+            {
+                if (!_approvalActive)
+                {
+                    ActivateApproval(true);
+                }
+            }
+            else
+            {
+                ActivateApproval(false);
+            }
         }
+
+        public void Approve()
+        {
+            ActivateApproval(false);
+            slider.interactable = false;
+            rejectButton.SetActive(true);
+
+            SetProductValue();
+            _manager.AddProduct(_orderProduct);
+        }
+
+        public void Reject()
+        {
+            rejectButton.SetActive(false);
+            
+            _manager.RemoveProduct(_orderProduct);
+            
+            ActivateApproval(true);
+            slider.interactable = true;
+        }
+
+        private void ActivateApproval(bool state)
+        {
+            approvalButton.SetActive(state);
+            _approvalActive = state;
+        }
+
+        private void SetProductValue()
+        {
+            _orderProduct.amount = (int)slider.value;
+            _orderProduct.size = product.space * _orderProduct.amount;
+        }
+        
     }
 }

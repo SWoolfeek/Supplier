@@ -9,7 +9,7 @@ namespace CoreSystems
 
         [Header("Tabs")] 
         [SerializeField] private GameObject storeTab;
-        [SerializeField] private GameObject orderTab;
+        [SerializeField] private GameObject planerTab;
 
         private Dictionary<Tabs, GameObject> tabs;
         private Tabs _openTab;
@@ -20,7 +20,7 @@ namespace CoreSystems
             tabs = new Dictionary<Tabs, GameObject>()
             {
                 { Tabs.Store, storeTab },
-                { Tabs.Order, orderTab }
+                { Tabs.Planer, planerTab }
             };
             
             _openTab = Tabs.Store;
@@ -42,7 +42,7 @@ namespace CoreSystems
         public enum Tabs
         {
             Store = 0,
-            Order = 1
+            Planer = 1
         }
     }
 }

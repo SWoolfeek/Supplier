@@ -6,21 +6,29 @@ namespace PlanerEngine
 
     public class OrderManager : MonoBehaviour
     {
-        private int _orders;
-        private List<Order> _preparedOrders;
-        private List<Order> _preparingOrders;
+        private PlanerManager _manager;
         
         [SerializeField] private NewOrderManager newOrderManager;
+        [SerializeField] private GameObject newOrderWindow;
+        
 
         
-        public void Initialization()
+        public void Initialization(PlanerManager manager)
         {
-            newOrderManager.Initialization();
+            _manager = manager;
+            newOrderManager.Initialization(this);
         }
 
         public void CreateOrder()
         {
-            
+            newOrderWindow.SetActive(true);
+            newOrderManager.UpdateAllProductsInOrder();
+        }
+
+        public void OrderCompleted(Order order)
+        {
+            newOrderWindow.SetActive(false);
+            _manager.AddOrder(order);
         }
         
     }
