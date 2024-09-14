@@ -11,7 +11,7 @@ namespace Saver
         private SaveSettings _saveSettings = new SaveSettings();
         private string _directory = "Saves";
         
-        public void SaveData(ESaveData saveDataType, string jsonData)
+        protected void Save(ESaveData saveDataType, string jsonData)
         {
             string savePath = Path.Combine(_directory,_saveSettings.pathToSave[saveDataType]);
             
@@ -28,19 +28,44 @@ namespace Saver
             file.Close();
         }
         
-        private string LoadData(ESaveData saveDataType)
+        protected string Load(ESaveData saveDataType)
         {
             string savePath = Path.Combine(_directory,_saveSettings.pathToSave[saveDataType]);
             
             if(File.Exists(savePath))
             {
-                return File.ReadAllText(savePath);
+                string loadedData = File.ReadAllText(savePath);
+                
+                if (loadedData.Length > 2)
+                {
+                    return loadedData;
+                }
+                else
+                {
+                    return "No save!";
+                }
+                
             }
             else
             {
-                Debug.LogError("Saved products do not exist!");
-                return "NoSave!";
+                Debug.LogError("Saved file do not exist!");
+                return "No save!";
             }
+        }
+
+        public void ClearExactSaveFile(ESaveData saveDataType)
+        {
+            string savePath = Path.Combine(_directory,_saveSettings.pathToSave[saveDataType]);
+            
+            if (File.Exists(savePath))
+            {
+                File.WriteAllText(savePath, String.Empty);
+            }
+        }
+
+        public void ClearAllSaves()
+        {
+            
         }
 
         

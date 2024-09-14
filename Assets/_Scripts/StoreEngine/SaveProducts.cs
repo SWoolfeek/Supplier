@@ -1,28 +1,30 @@
-
 namespace StoreEngine
 {
     using System.Collections.Generic;
     using UnityEngine;
-    using System.IO;
     using System;
     using System.Linq;
 
 
 
-    public class SaveProducts
+    public class SaveProducts: Saver.Saver
     {
-        private string _directory = "Saves";
+        private Saver.ESaveData _saveType = Saver.ESaveData.Products;
         private Dictionary<string, ProductSaveData> _saveData;
         
         public void AddModifiedProduct(string productName, int amount, float outputPerTick, int outputMultiplier, float outputResidual, bool outputMultiplierRecalculation, int startOutputMultiplier, int targetOutputMultiplier, int ticksDone, int inputTicksTarget, bool withSave = true)
         {
+            ProductSaveData inputData = new ProductSaveData(productName, amount, outputPerTick, outputMultiplier,
+                outputResidual, outputMultiplierRecalculation, startOutputMultiplier, targetOutputMultiplier, ticksDone,
+                inputTicksTarget);
+            
             if (_saveData.ContainsKey(productName))
             {
-                _saveData[productName] = new ProductSaveData(productName, amount, outputPerTick, outputMultiplier, outputResidual,outputMultiplierRecalculation, startOutputMultiplier, targetOutputMultiplier, ticksDone, inputTicksTarget);
+                _saveData[productName] = inputData;
             }
             else
             {
-                _saveData.Add(productName, new ProductSaveData(productName, amount, outputPerTick, outputMultiplier, outputResidual,outputMultiplierRecalculation, startOutputMultiplier, targetOutputMultiplier, ticksDone, inputTicksTarget));
+                _saveData.Add(productName, inputData);
             }
 
             if (withSave)
@@ -33,12 +35,6 @@ namespace StoreEngine
 
         public void SaveData()
         {
-            string savePath = Path.Combine(_directory,"Products.json");
-            
-            if (File.Exists(savePath))
-            {
-                File.WriteAllText(savePath, String.Empty);
-            }
 
             ProductsSaveData saveList = new ProductsSaveData();
             
@@ -47,21 +43,18 @@ namespace StoreEngine
                 saveList.productsSaveData.Add(_saveData[key]);
             }
             
-            var file = File.CreateText(savePath);
-            file.WriteLine(JsonUtility.ToJson(saveList));
-            
-            file.Close();
+            Save(_saveType, JsonUtility.ToJson(saveList));
         }
 
         private void LoadData()
         {
-            string savePath = Path.Combine(_directory,"Products.json");
-            _saveData = new Dictionary<string, ProductSaveData>();
-            
-            if(File.Exists(savePath))
+            string loadedData = Load(_saveType);
+            if (loadedData != "No save!")
             {
+                _saveData = new Dictionary<string, ProductSaveData>();
+                
                 ProductsSaveData data =
-                    JsonUtility.FromJson<ProductsSaveData>(File.ReadAllText(savePath));
+                    JsonUtility.FromJson<ProductsSaveData>(loadedData);
 
                 foreach (ProductSaveData saveData in data.productsSaveData)
                 {
