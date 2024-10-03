@@ -92,8 +92,8 @@ namespace RoadEngine
 
         private void RouteFinished(bool state)
         {
-            _routeFinished = true;
-            applyButton.SetActive(true);
+            _routeFinished = state;
+            applyButton.SetActive(state);
         }
 
         public void RemoveNode(string nodeName)
