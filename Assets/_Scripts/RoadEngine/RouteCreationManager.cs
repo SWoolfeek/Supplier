@@ -62,6 +62,7 @@ namespace RoadEngine
             // Road. Need to be extended when system will be finished.
             roads = new List<Road>();
             route.Add(_startingNode);
+            _nodesDict[_startingNode].StateStartingNode(true);
             ActivateNodes(_nodesDict[_startingNode].nextNodes);
         }
 
@@ -76,7 +77,6 @@ namespace RoadEngine
                 }
                 else
                 {
-                    onDisableNodes.Invoke();
                     RouteFinished(true);
                     Debug.Log("Route is finished.");
                 }
@@ -106,6 +106,10 @@ namespace RoadEngine
 
                     if (nodeIndex == 0)
                     {
+                        foreach (string node in route)
+                        {
+                            _nodesDict[node].DeActivateToChoseNode();
+                        }
                         route.Clear();
                         route.Add(_startingNode);
                         // Road. Need to be extended when system will be finished.
@@ -122,11 +126,18 @@ namespace RoadEngine
                         {
                             totalLength += road.length;
                         }
+
+                        for (int i = nodeIndex; i < route.Count; i++)
+                        {
+                            _nodesDict[route[i]].DeActivateToChoseNode();
+                        }
                         
                         route.RemoveRange(nodeIndex, route.Count - nodeIndex);
                         
                         
                     }
+                    
+                    onDisableNodes.Invoke();
 
                     if (_routeFinished)
                     {
@@ -145,7 +156,10 @@ namespace RoadEngine
             
             foreach (RoadNode node in nodesToActivate)
             {
-                node.ActivateNode();
+                if (node.IsOwned())
+                {
+                    node.ActivateToChoseNode();
+                }
             }
         }
     }

@@ -1,0 +1,17 @@
+GridBackground {
+    --grid-background-color: #282828;
+    --line-color: rgba(193,196,192,0.1);
+    --thick-line-color: rgba(193,196,192,0.1);
+    --spacing: 50;
+}
+
+RoadGraphNode #float-field{
+    flex-direction: column;
+}
+
+RoadGraphNode #road-name-text-field{
+    align-self: center;
+    flex-direction: column;
+    max-height: 80%;
+    min-width: 20px;
+}

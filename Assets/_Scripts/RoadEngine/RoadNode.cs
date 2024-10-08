@@ -1,9 +1,8 @@
-using System;
-
 namespace RoadEngine
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System;
     using UnityEngine;
     using Sirenix.OdinInspector;
 
@@ -13,6 +12,7 @@ namespace RoadEngine
         [OnValueChanged("ChangeName")]
         public string nodeName;
         public RoadNodeType nodeType = RoadNodeType.Intermediate;
+        [SerializeField] private RoadNodeState _nodeState;
         public List<RoadNode> nextNodes;
         
 
@@ -20,9 +20,13 @@ namespace RoadEngine
         [SerializeField] private SpriteRenderer _sprite;
         public Color basicColor = Color.white;
         public Color activeColor = Color.green;
+        public Color activeToChoseColor = Color.green;
+        public Color enemyColor = Color.green;
        
         private RouteCreationManager _manager;
+        private bool _isActiveToChose;
         private bool _isActive;
+        
         
         
         public enum RoadNodeType
@@ -31,44 +35,118 @@ namespace RoadEngine
             Intermediate = 1,
             End = 2
         }
+        
+        public enum RoadNodeState
+        {
+            Owned = 0,
+            Active = 1,
+            ActiveToChose = 2,
+            EnemiesOwn = 3
+        }
 
         public void Initialize(RouteCreationManager inputManager)
         {
             _manager = inputManager;
-            _manager.onDisableNodes.AddListener(DeactivateNode);
+            _manager.onDisableNodes.AddListener(DeactivateToChoseNode);
+            ChangeNodeColour();
         }
 
-        public void ActivateNode()
+        public bool IsOwned()
         {
-            _isActive = true;
-            _sprite.color = activeColor;
+            if (_nodeState == RoadNodeState.Owned)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ActivateToChoseNode()
+        {
+            _isActiveToChose = true;
+            _nodeState = RoadNodeState.ActiveToChose;
+            ChangeNodeColour();
+        }
+        
+        public void DeActivateToChoseNode()
+        {
+            if (_isActive)
+            {
+                _isActive = false;
+                _nodeState = RoadNodeState.Owned;
+                ChangeNodeColour();
+            }
+            
+        }
+
+        public void StateStartingNode(bool state)
+        {
+            if (nodeType == RoadNodeType.Start)
+            {
+                _isActive = state;
+                if (_isActive)
+                {
+                    _nodeState = RoadNodeState.Active;
+                    ChangeNodeColour();
+                }
+                else
+                {
+                    _nodeState = RoadNodeState.Owned;
+                    ChangeNodeColour();
+                }
+            }
         }
 
         private void OnMouseDown()
         {
-            if (_isActive)
+            if (_isActiveToChose)
             {
                 _manager.AddNode(nodeName);
+                _isActive = true;
+                _isActiveToChose = false;
+                _nodeState = RoadNodeState.Active;
+                ChangeNodeColour();
             }
         }
         
         private void OnMouseOver()
         {
-            if (Input.GetMouseButtonDown(1)) {
+            if (Input.GetMouseButtonDown(1) & (_isActive || nodeType == RoadNodeType.Start)) {
                 _manager.RemoveNode(nodeName);
             }
         }
 
-        private void DeactivateNode()
+        private void DeactivateToChoseNode()
         {
-            if (_isActive)
+            if (_isActiveToChose)
             {
                 Debug.Log(nodeName + " - Deactivated");
+                _isActiveToChose = false;
                 _isActive = false;
-                _sprite.color = basicColor;
+                _nodeState = RoadNodeState.Owned;
+                ChangeNodeColour();
             }
             
             Debug.Log(nodeName + " - not active");
+        }
+
+        private void ChangeNodeColour()
+        {
+            switch (_nodeState)
+            {
+                case RoadNodeState.Owned:
+                    _sprite.color = basicColor;
+                    break;
+                case RoadNodeState.Active:
+                    _sprite.color = activeColor;
+                    break;
+                case RoadNodeState.ActiveToChose:
+                    _sprite.color = activeToChoseColor;
+                    break;
+                case RoadNodeState.EnemiesOwn:
+                    _sprite.color = enemyColor;
+                    break;
+            }
         }
         
 #if UNITY_EDITOR
@@ -80,7 +158,7 @@ namespace RoadEngine
 
         private void OnDestroy()
         {
-            _manager.onDisableNodes.RemoveListener(DeactivateNode);
+            _manager.onDisableNodes.RemoveListener(DeactivateToChoseNode);
         }
     }
 }
