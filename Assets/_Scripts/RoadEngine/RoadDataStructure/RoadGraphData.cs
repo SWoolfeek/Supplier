@@ -7,27 +7,40 @@ namespace RoadEngine
 
     public class RoadGraphData : ScriptableObject
     {
-        [SerializeField] private string roadName;
+        public string roadName;
         
         [SerializeField] [ReadOnly]
         private List<RoadDataNode> _roadDataNodes;
         [SerializeField] [ReadOnly]
         private List<RoadNodeConnection> _roadNodeConnections;
 
-        private Dictionary<string, RoadDataNode> _roadNodesDict;
-        private Dictionary<string, RoadNodeConnection> _roadNodeConnectionsDict;
+        public Dictionary<string, RoadDataNode> roadNodesDict;
+        public Dictionary<string, RoadNodeConnection> roadNodeConnectionsDict;
 
         public void Initialize()
         {
+            roadNodesDict = new Dictionary<string, RoadDataNode>();
+            roadNodeConnectionsDict = new Dictionary<string, RoadNodeConnection>();
+            
             foreach (RoadDataNode node in _roadDataNodes)
             {
-                _roadNodesDict.Add(node.GUID, node);
+                roadNodesDict.Add(node.GUID, node);
             }
             
             foreach (RoadNodeConnection connection in _roadNodeConnections)
             {
-                _roadNodeConnectionsDict.Add(connection.GUID, connection);
+                roadNodeConnectionsDict.Add(connection.GUID, connection);
             }
+        }
+
+        public List<RoadDataNode> GetAllNodes()
+        {
+            return _roadDataNodes;
+        }
+        
+        public List<RoadNodeConnection> GetAllConnections()
+        {
+            return _roadNodeConnections;
         }
 
         public void SetData( string inputRoadName, List<RoadDataNode> roadDataNodes, List<RoadNodeConnection> roadNodeConnections)

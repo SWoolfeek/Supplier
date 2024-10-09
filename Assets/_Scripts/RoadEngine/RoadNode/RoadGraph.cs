@@ -1,5 +1,3 @@
-using System;
-
 namespace RoadEngine
 {
     
@@ -14,6 +12,7 @@ namespace RoadEngine
     {
         private RoadGraphView _graphView;
         private string _roadGraphName = "New Road";
+        private Object _loadData;
         
         [MenuItem("Tools/Roads graph")]
         public static void OpenRoadGraphWindow()
@@ -41,10 +40,20 @@ namespace RoadEngine
             roadGraphNameTextField.SetValueWithoutNotify(_roadGraphName);
             roadGraphNameTextField.MarkDirtyRepaint();
             roadGraphNameTextField.RegisterValueChangedCallback(evt => _roadGraphName = evt.newValue);
+            _graphView.roadNameTextField = roadGraphNameTextField;
             toolBar.Add(roadGraphNameTextField);
             
             toolBar.Add(new Button(() => RequestDataOperation(true)){text = "Save Data"});
+            
+            toolBar.Add(new Label(" | "));
+
+            var objectField = new ObjectField();
+            objectField.objectType = typeof(RoadGraphData);
+            objectField.RegisterValueChangedCallback(evt => _loadData = evt.newValue);
+            toolBar.Add(objectField);
             toolBar.Add(new Button(() => RequestDataOperation(false)){text = "Load Data"});
+            
+            toolBar.Add(new Label(" | "));
             
             Button nodeCreateButton = new Button(() => { _graphView.CreateNode("RoadNode"); });
             nodeCreateButton.text = "New RoadNode";
@@ -68,7 +77,7 @@ namespace RoadEngine
             }
             else
             {
-                saveUtility.LoadGraph(_roadGraphName);
+                saveUtility.LoadGraph(_loadData);
             }
         }
 

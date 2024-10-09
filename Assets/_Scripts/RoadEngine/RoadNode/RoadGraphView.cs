@@ -9,10 +9,12 @@ namespace RoadEngine
 
     using UnityEngine;
 
+
     public class RoadGraphView : GraphView
     {
 
         private readonly Vector2 _basicNodeScale = new Vector2(550,200);
+        public TextField roadNameTextField;
         
         public RoadGraphView()
         {
@@ -60,6 +62,9 @@ namespace RoadEngine
             Port generatedPort = GeneratePort(node, Direction.Output);
             generatedPort.portName = "Next";
             node.outputContainer.Add(generatedPort);
+
+            node.capabilities -= Capabilities.Movable;
+            node.capabilities -= Capabilities.Deletable;
             
             node.RefreshExpandedState();
             node.RefreshPorts();
@@ -72,7 +77,7 @@ namespace RoadEngine
             AddElement(CreateRoadNode(nodeName));
         }
 
-        public RoadGraphNode CreateRoadNode(string nodeName)
+        public RoadGraphNode CreateRoadNode(string nodeName, float distance = 0f)
         {
             RoadGraphNode node = new RoadGraphNode("Road");
             node.SetPosition(new Rect(Vector2.zero, _basicNodeScale));
@@ -80,8 +85,8 @@ namespace RoadEngine
             
             var textField = new TextField();
             textField.name = "road-name-text-field";
-            textField.SetValueWithoutNotify("Road Name");
-            textField.RegisterValueChangedCallback(evt => nodeName = evt.newValue);
+            textField.SetValueWithoutNotify(nodeName);
+            textField.RegisterValueChangedCallback(evt => node.nodeName = evt.newValue);
             node.titleContainer.Add(textField);
             
 
@@ -89,16 +94,16 @@ namespace RoadEngine
             outputPort.portName = "Next";
             node.outputContainer.Add(outputPort);
 
-            Button button = new Button((() => AddInputPort(node)));
+            Button button = new Button((() => AddInputPort(node, 0f)));
             button.text = "New Input";
             node.titleContainer.Add(button);
 
-            AddInputPort(node);
+            AddInputPort(node, distance);
             
             return node;
         }
 
-        private void AddInputPort(RoadGraphNode node)
+        public void AddInputPort(RoadGraphNode node, float distance)
         {
             Port generatedPort = GeneratePort(node, Direction.Input, Port.Capacity.Single);
             int inputPortCount = node.inputContainer.Query("connector").ToList().Count;
@@ -108,11 +113,17 @@ namespace RoadEngine
             var floatField = new FloatField();
             floatField.name = "float-field";
             floatField.RegisterValueChangedCallback(evt => generatedPort.userData = evt.newValue);
+            floatField.value = distance;
             
             generatedPort.Add(floatField);
             
             node.RefreshExpandedState();
             node.RefreshPorts();
+        }
+
+        public void RoadName(string roadName)
+        {
+            roadNameTextField.value = roadName;
         }
         
 
