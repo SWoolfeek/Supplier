@@ -24,86 +24,86 @@ MonoBehaviour:
       height: 77
     inputConnections: []
     outputConnections:
-    - bd5ceded-236f-4894-8188-d29d4ef068ef
-    - e455590e-d5f8-4d05-b2bc-012660a85e36
-    - 89618bfb-f716-4f8a-bc1d-a755780587e0
+    - 26da9652-8557-4fb3-95cb-f804ecdd44cd
+    - fa270eef-2bac-4ae1-b7d2-0f327f28d786
+    - 15160ed5-9c64-4e45-b43d-0065b56b910f
   - GUID: a5da5fec-bd51-4a96-be60-1e7d50dd0f37
     nodeName: First
     position:
       serializedVersion: 2
-      x: 208
-      y: 257
-      width: 189
+      x: 243
+      y: 263
+      width: 184
       height: 77
     inputConnections:
-    - bd5ceded-236f-4894-8188-d29d4ef068ef
+    - 26da9652-8557-4fb3-95cb-f804ecdd44cd
     outputConnections:
-    - 9d270a21-b2b2-4f52-b448-572e2c3bb15f
+    - 9f12c7ad-195a-4afd-aed9-a2d790ee84f5
   - GUID: c50c7293-b079-4477-9f1e-40ae078eb9ad
     nodeName: Second
     position:
       serializedVersion: 2
-      x: 208
+      x: 243
       y: 391
-      width: 206
+      width: 219
       height: 77
     inputConnections:
-    - e455590e-d5f8-4d05-b2bc-012660a85e36
+    - fa270eef-2bac-4ae1-b7d2-0f327f28d786
     outputConnections:
-    - 7de8c7e1-817c-4751-81fc-3ac4037ff928
-    - 683da39f-c3dd-41f5-bfe4-436126f3a2f3
+    - 87e57789-1184-4a4e-8e84-6bd620e80f6b
+    - 1304da57-09b8-43d9-881e-f8e591dc12e4
   - GUID: 86707f93-d9c0-4bbb-9060-1ea5c5cf4875
-    nodeName: WTF
+    nodeName: Midle
     position:
       serializedVersion: 2
-      x: 586
-      y: 138
-      width: 190
+      x: 598
+      y: 152
+      width: 196
       height: 125
     inputConnections:
-    - 89618bfb-f716-4f8a-bc1d-a755780587e0
-    - 9d270a21-b2b2-4f52-b448-572e2c3bb15f
-    - 7de8c7e1-817c-4751-81fc-3ac4037ff928
+    - 15160ed5-9c64-4e45-b43d-0065b56b910f
+    - 9f12c7ad-195a-4afd-aed9-a2d790ee84f5
+    - 87e57789-1184-4a4e-8e84-6bd620e80f6b
     outputConnections:
-    - c97db6a9-1ebc-459f-b7e5-7f37211ebf62
+    - 9237f176-483d-400c-8db8-e064e1fa8b2f
   - GUID: 88fda064-9457-456b-9c1f-8ebffe48afe1
     nodeName: Last
     position:
       serializedVersion: 2
       x: 845
       y: 367
-      width: 189
+      width: 184
       height: 101
     inputConnections:
-    - c97db6a9-1ebc-459f-b7e5-7f37211ebf62
-    - 683da39f-c3dd-41f5-bfe4-436126f3a2f3
+    - 9237f176-483d-400c-8db8-e064e1fa8b2f
+    - 1304da57-09b8-43d9-881e-f8e591dc12e4
     outputConnections: []
   _roadNodeConnections:
-  - GUID: bd5ceded-236f-4894-8188-d29d4ef068ef
+  - GUID: 26da9652-8557-4fb3-95cb-f804ecdd44cd
     inputNodeGUID: 38562118-91b2-4da3-9a8b-4907fc0c6847
     outputNodeGUID: a5da5fec-bd51-4a96-be60-1e7d50dd0f37
     distance: 13.5
-  - GUID: e455590e-d5f8-4d05-b2bc-012660a85e36
+  - GUID: fa270eef-2bac-4ae1-b7d2-0f327f28d786
     inputNodeGUID: 38562118-91b2-4da3-9a8b-4907fc0c6847
     outputNodeGUID: c50c7293-b079-4477-9f1e-40ae078eb9ad
-    distance: 5
-  - GUID: 89618bfb-f716-4f8a-bc1d-a755780587e0
+    distance: 1
+  - GUID: 15160ed5-9c64-4e45-b43d-0065b56b910f
     inputNodeGUID: 38562118-91b2-4da3-9a8b-4907fc0c6847
     outputNodeGUID: 86707f93-d9c0-4bbb-9060-1ea5c5cf4875
     distance: 10
-  - GUID: 9d270a21-b2b2-4f52-b448-572e2c3bb15f
+  - GUID: 9f12c7ad-195a-4afd-aed9-a2d790ee84f5
     inputNodeGUID: a5da5fec-bd51-4a96-be60-1e7d50dd0f37
     outputNodeGUID: 86707f93-d9c0-4bbb-9060-1ea5c5cf4875
-    distance: 0.5
-  - GUID: 7de8c7e1-817c-4751-81fc-3ac4037ff928
+    distance: 1
+  - GUID: 87e57789-1184-4a4e-8e84-6bd620e80f6b
     inputNodeGUID: c50c7293-b079-4477-9f1e-40ae078eb9ad
     outputNodeGUID: 86707f93-d9c0-4bbb-9060-1ea5c5cf4875
-    distance: 11.2
-  - GUID: c97db6a9-1ebc-459f-b7e5-7f37211ebf62
+    distance: 121
+  - GUID: 9237f176-483d-400c-8db8-e064e1fa8b2f
     inputNodeGUID: 86707f93-d9c0-4bbb-9060-1ea5c5cf4875
     outputNodeGUID: 88fda064-9457-456b-9c1f-8ebffe48afe1
     distance: 12
-  - GUID: 683da39f-c3dd-41f5-bfe4-436126f3a2f3
+  - GUID: 1304da57-09b8-43d9-881e-f8e591dc12e4
     inputNodeGUID: c50c7293-b079-4477-9f1e-40ae078eb9ad
     outputNodeGUID: 88fda064-9457-456b-9c1f-8ebffe48afe1
-    distance: 20.1
+    distance: 11

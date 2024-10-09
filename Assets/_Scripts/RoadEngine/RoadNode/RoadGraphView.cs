@@ -82,6 +82,7 @@ namespace RoadEngine
             RoadGraphNode node = new RoadGraphNode("Road");
             node.SetPosition(new Rect(Vector2.zero, _basicNodeScale));
             node.title = nodeName;
+            node.nodeName = nodeName;
             
             var textField = new TextField();
             textField.name = "road-name-text-field";

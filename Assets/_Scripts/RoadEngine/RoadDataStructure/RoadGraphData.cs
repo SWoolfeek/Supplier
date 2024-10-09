@@ -7,6 +7,7 @@ namespace RoadEngine
 
     public class RoadGraphData : ScriptableObject
     {
+        [ReadOnly]
         public string roadName;
         
         [SerializeField] [ReadOnly]

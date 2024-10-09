@@ -84,7 +84,6 @@ namespace RoadEngine
             List<string> wasAsOutput = new List<string>();
             
             var startingNode = Nodes.Find(x => x.nodeName == "Start");
-            Debug.Log(startingNode.GUID);
             graphNodes[startingNode.GUID] = startingNode;
             
             _cachedGraph.Initialize();
@@ -109,6 +108,8 @@ namespace RoadEngine
                     if (wasAsOutput.Contains(connection.outputNodeGUID))
                     {
                         _targetGraphView.AddInputPort(outputNode, connection.distance);
+                        outputNode.inputContainer[outputNode.inputContainer.childCount - 1].Q<FloatField>().value = connection.distance;
+                        outputNode.inputContainer[outputNode.inputContainer.childCount - 1].Q<Port>().userData = connection.distance;
                     }
                 }
                 else
