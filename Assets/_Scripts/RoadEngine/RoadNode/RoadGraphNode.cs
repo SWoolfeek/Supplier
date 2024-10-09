@@ -14,7 +14,6 @@ namespace RoadEngine
         public RoadGraphNode(string inputNodeName)
         {
             GUID = Guid.NewGuid().ToString();
-
             this.nodeName = inputNodeName;
         }
     }

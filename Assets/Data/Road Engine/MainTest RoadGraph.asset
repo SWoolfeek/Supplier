@@ -1,0 +1,255 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7c76c358c007445ab69dd406857082, type: 3}
+  m_Name: MainTest RoadGraph
+  m_EditorClassIdentifier: 
+  roadName: MainTest
+  _roadDataNodes:
+  - GUID: b1f8e067-5b0c-4cd0-8cad-295d29e8cbd5
+    nodeName: Start
+    position:
+      serializedVersion: 2
+      x: 100
+      y: 200
+      width: 74
+      height: 77
+    inputConnections: []
+    outputConnections:
+    - 54e225ea-24fc-4df4-8d7d-bbebc617bdd5
+    - 37000e7d-f55c-4b7d-8636-01f59ba17540
+  - GUID: d2c4a864-dbd9-4636-87f1-4b5cfbbfe0fe
+    nodeName: a1
+    position:
+      serializedVersion: 2
+      x: 289
+      y: 123
+      width: 208
+      height: 77
+    inputConnections:
+    - 54e225ea-24fc-4df4-8d7d-bbebc617bdd5
+    outputConnections:
+    - 20cccc9a-a1dd-4e42-b4b1-2f1eced09951
+    - b3113be7-a483-4bdd-9029-f2b165858745
+  - GUID: b5deae83-be83-4f6c-8afa-aff6f50c2640
+    nodeName: a2
+    position:
+      serializedVersion: 2
+      x: 497
+      y: 716
+      width: 209
+      height: 101
+    inputConnections:
+    - 20cccc9a-a1dd-4e42-b4b1-2f1eced09951
+    - 37000e7d-f55c-4b7d-8636-01f59ba17540
+    outputConnections:
+    - b1e724a2-f1d5-4fcc-8930-97d3b5d54f8a
+  - GUID: b145c56b-22aa-4f8e-b21d-f739ec83cec3
+    nodeName: b1
+    position:
+      serializedVersion: 2
+      x: 879
+      y: 0
+      width: 208
+      height: 77
+    inputConnections:
+    - b3113be7-a483-4bdd-9029-f2b165858745
+    outputConnections:
+    - 6f07cd4e-8cfd-4c4a-b074-f70b6825d627
+  - GUID: d177230e-4f65-4d66-9cff-e9c960effebf
+    nodeName: c1
+    position:
+      serializedVersion: 2
+      x: 1500
+      y: -77
+      width: 208
+      height: 77
+    inputConnections:
+    - 6f07cd4e-8cfd-4c4a-b074-f70b6825d627
+    outputConnections:
+    - 152affeb-2af2-493e-aff4-285469f34bd0
+    - 6796f28f-f9e7-49a1-8af6-c3e0694759f1
+  - GUID: dab9fdff-15ce-492b-9bb8-307c16a70d29
+    nodeName: b2
+    position:
+      serializedVersion: 2
+      x: 1290
+      y: 869
+      width: 210
+      height: 77
+    inputConnections:
+    - b1e724a2-f1d5-4fcc-8930-97d3b5d54f8a
+    outputConnections:
+    - 175b339f-8cb0-4b61-8f1a-f4ee62da2918
+    - 2b0b3cf7-44c6-4977-8bbb-5c9f7be08c1b
+    - 231b4f49-e7c5-48da-9aef-e6e0d074c770
+  - GUID: eb0a2f30-f982-4922-a3b3-f6d4a2901894
+    nodeName: c2
+    position:
+      serializedVersion: 2
+      x: 1634
+      y: 253
+      width: 209
+      height: 101
+    inputConnections:
+    - 152affeb-2af2-493e-aff4-285469f34bd0
+    - 175b339f-8cb0-4b61-8f1a-f4ee62da2918
+    outputConnections:
+    - e7eefa4b-ba10-48f7-9c5e-d80d7fe17f00
+  - GUID: f03580ac-a00c-4e4b-9487-994def9166fd
+    nodeName: d1
+    position:
+      serializedVersion: 2
+      x: 2007
+      y: -273
+      width: 208
+      height: 77
+    inputConnections:
+    - 6796f28f-f9e7-49a1-8af6-c3e0694759f1
+    outputConnections:
+    - 7a6896e2-785a-4b3f-9641-26a2e4b21df0
+  - GUID: 9fa22404-fe52-44a2-a440-610b8ddfed54
+    nodeName: d2
+    position:
+      serializedVersion: 2
+      x: 2110
+      y: 55
+      width: 210
+      height: 77
+    inputConnections:
+    - e7eefa4b-ba10-48f7-9c5e-d80d7fe17f00
+    outputConnections:
+    - 18731a8c-71bd-489c-a012-057723855b48
+    - f2444a9c-5ef0-45d2-8ec2-ba0a6f43c6e0
+  - GUID: 42c5a303-2b83-4742-9278-d7571bcb13ab
+    nodeName: c3
+    position:
+      serializedVersion: 2
+      x: 1882
+      y: 1372
+      width: 210
+      height: 77
+    inputConnections:
+    - 2b0b3cf7-44c6-4977-8bbb-5c9f7be08c1b
+    outputConnections:
+    - f206475c-b51f-4621-8f53-fb9b6bd224bf
+  - GUID: b7c677ee-8a56-4c27-9d55-dd6161ee77c3
+    nodeName: d3
+    position:
+      serializedVersion: 2
+      x: 2195
+      y: 696
+      width: 210
+      height: 101
+    inputConnections:
+    - 231b4f49-e7c5-48da-9aef-e6e0d074c770
+    - f206475c-b51f-4621-8f53-fb9b6bd224bf
+    outputConnections:
+    - efbbdb8c-21f8-4ef2-8b5e-b73f4cd2aeec
+  - GUID: 61551794-35d3-47c7-a41d-3c21130986df
+    nodeName: e1
+    position:
+      serializedVersion: 2
+      x: 2650
+      y: 31
+      width: 208
+      height: 125
+    inputConnections:
+    - 7a6896e2-785a-4b3f-9641-26a2e4b21df0
+    - 18731a8c-71bd-489c-a012-057723855b48
+    - 969c8471-0248-419d-be1f-8d540e5101d2
+    outputConnections: []
+  - GUID: cf7ea4fa-e8a5-454e-b754-168d294b2315
+    nodeName: e2
+    position:
+      serializedVersion: 2
+      x: 2544
+      y: 354
+      width: 210
+      height: 101
+    inputConnections:
+    - f2444a9c-5ef0-45d2-8ec2-ba0a6f43c6e0
+    - efbbdb8c-21f8-4ef2-8b5e-b73f4cd2aeec
+    outputConnections:
+    - 969c8471-0248-419d-be1f-8d540e5101d2
+  _roadNodeConnections:
+  - GUID: 54e225ea-24fc-4df4-8d7d-bbebc617bdd5
+    inputNodeGUID: b1f8e067-5b0c-4cd0-8cad-295d29e8cbd5
+    outputNodeGUID: d2c4a864-dbd9-4636-87f1-4b5cfbbfe0fe
+    distance: 3.5
+  - GUID: 20cccc9a-a1dd-4e42-b4b1-2f1eced09951
+    inputNodeGUID: d2c4a864-dbd9-4636-87f1-4b5cfbbfe0fe
+    outputNodeGUID: b5deae83-be83-4f6c-8afa-aff6f50c2640
+    distance: 4
+  - GUID: 37000e7d-f55c-4b7d-8636-01f59ba17540
+    inputNodeGUID: b1f8e067-5b0c-4cd0-8cad-295d29e8cbd5
+    outputNodeGUID: b5deae83-be83-4f6c-8afa-aff6f50c2640
+    distance: 4.5
+  - GUID: b3113be7-a483-4bdd-9029-f2b165858745
+    inputNodeGUID: d2c4a864-dbd9-4636-87f1-4b5cfbbfe0fe
+    outputNodeGUID: b145c56b-22aa-4f8e-b21d-f739ec83cec3
+    distance: 3
+  - GUID: 6f07cd4e-8cfd-4c4a-b074-f70b6825d627
+    inputNodeGUID: b145c56b-22aa-4f8e-b21d-f739ec83cec3
+    outputNodeGUID: d177230e-4f65-4d66-9cff-e9c960effebf
+    distance: 5
+  - GUID: b1e724a2-f1d5-4fcc-8930-97d3b5d54f8a
+    inputNodeGUID: b5deae83-be83-4f6c-8afa-aff6f50c2640
+    outputNodeGUID: dab9fdff-15ce-492b-9bb8-307c16a70d29
+    distance: 3.5
+  - GUID: 152affeb-2af2-493e-aff4-285469f34bd0
+    inputNodeGUID: d177230e-4f65-4d66-9cff-e9c960effebf
+    outputNodeGUID: eb0a2f30-f982-4922-a3b3-f6d4a2901894
+    distance: 5
+  - GUID: 175b339f-8cb0-4b61-8f1a-f4ee62da2918
+    inputNodeGUID: dab9fdff-15ce-492b-9bb8-307c16a70d29
+    outputNodeGUID: eb0a2f30-f982-4922-a3b3-f6d4a2901894
+    distance: 4
+  - GUID: 6796f28f-f9e7-49a1-8af6-c3e0694759f1
+    inputNodeGUID: d177230e-4f65-4d66-9cff-e9c960effebf
+    outputNodeGUID: f03580ac-a00c-4e4b-9487-994def9166fd
+    distance: 2.3
+  - GUID: e7eefa4b-ba10-48f7-9c5e-d80d7fe17f00
+    inputNodeGUID: eb0a2f30-f982-4922-a3b3-f6d4a2901894
+    outputNodeGUID: 9fa22404-fe52-44a2-a440-610b8ddfed54
+    distance: 4.2
+  - GUID: 2b0b3cf7-44c6-4977-8bbb-5c9f7be08c1b
+    inputNodeGUID: dab9fdff-15ce-492b-9bb8-307c16a70d29
+    outputNodeGUID: 42c5a303-2b83-4742-9278-d7571bcb13ab
+    distance: 5.2
+  - GUID: 231b4f49-e7c5-48da-9aef-e6e0d074c770
+    inputNodeGUID: dab9fdff-15ce-492b-9bb8-307c16a70d29
+    outputNodeGUID: b7c677ee-8a56-4c27-9d55-dd6161ee77c3
+    distance: 4.1
+  - GUID: f206475c-b51f-4621-8f53-fb9b6bd224bf
+    inputNodeGUID: 42c5a303-2b83-4742-9278-d7571bcb13ab
+    outputNodeGUID: b7c677ee-8a56-4c27-9d55-dd6161ee77c3
+    distance: 3.1
+  - GUID: 7a6896e2-785a-4b3f-9641-26a2e4b21df0
+    inputNodeGUID: f03580ac-a00c-4e4b-9487-994def9166fd
+    outputNodeGUID: 61551794-35d3-47c7-a41d-3c21130986df
+    distance: 5.1
+  - GUID: 18731a8c-71bd-489c-a012-057723855b48
+    inputNodeGUID: 9fa22404-fe52-44a2-a440-610b8ddfed54
+    outputNodeGUID: 61551794-35d3-47c7-a41d-3c21130986df
+    distance: 2.1
+  - GUID: 969c8471-0248-419d-be1f-8d540e5101d2
+    inputNodeGUID: cf7ea4fa-e8a5-454e-b754-168d294b2315
+    outputNodeGUID: 61551794-35d3-47c7-a41d-3c21130986df
+    distance: 6.3
+  - GUID: f2444a9c-5ef0-45d2-8ec2-ba0a6f43c6e0
+    inputNodeGUID: 9fa22404-fe52-44a2-a440-610b8ddfed54
+    outputNodeGUID: cf7ea4fa-e8a5-454e-b754-168d294b2315
+    distance: 5.4
+  - GUID: efbbdb8c-21f8-4ef2-8b5e-b73f4cd2aeec
+    inputNodeGUID: b7c677ee-8a56-4c27-9d55-dd6161ee77c3
+    outputNodeGUID: cf7ea4fa-e8a5-454e-b754-168d294b2315
+    distance: 2.4

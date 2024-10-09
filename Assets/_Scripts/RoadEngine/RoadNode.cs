@@ -5,15 +5,20 @@ namespace RoadEngine
     using System;
     using UnityEngine;
     using Sirenix.OdinInspector;
+    
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 
     public class RoadNode : MonoBehaviour
     {
         [OnValueChanged("ChangeName")]
         public string nodeName;
+        [ReadOnly]
+        public string nodeGui;
         public RoadNodeType nodeType = RoadNodeType.Intermediate;
         [SerializeField] private RoadNodeState _nodeState;
-        public List<RoadNode> nextNodes;
         
 
         [Header("Colors")] 
@@ -24,7 +29,7 @@ namespace RoadEngine
         public Color enemyColor = Color.green;
        
         private RouteCreationManager _manager;
-        private bool _isActiveToChose;
+        [ReadOnly][SerializeField] private bool _isActiveToChose;
         private bool _isActive;
         
         
@@ -120,14 +125,11 @@ namespace RoadEngine
         {
             if (_isActiveToChose)
             {
-                Debug.Log(nodeName + " - Deactivated");
                 _isActiveToChose = false;
                 _isActive = false;
                 _nodeState = RoadNodeState.Owned;
                 ChangeNodeColour();
             }
-            
-            Debug.Log(nodeName + " - not active");
         }
 
         private void ChangeNodeColour()
@@ -153,6 +155,14 @@ namespace RoadEngine
         private void ChangeName()
         {
             name = nodeName;
+        }
+
+        public void SetNodeGui(string gui)
+        {
+            nodeGui = gui;
+            
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
 #endif
 

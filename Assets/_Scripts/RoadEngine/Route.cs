@@ -4,13 +4,15 @@ namespace RoadEngine
 
     public class Route
     {
-        public List<Road> roads = new List<Road>();
+        public List<string> roadConnections = new List<string>(); //Connections guid.
+        public RoadGraphData specifiedRoad;
         public float length;
 
-        public Route(List<Road> inputRoads, float inputLength)
+        public Route(List<string> inputRoadConnections, float inputLength, RoadGraphData inputSpecifiedRoad)
         {
-            roads = inputRoads;
+            roadConnections = inputRoadConnections;
             length = inputLength;
+            specifiedRoad = inputSpecifiedRoad;
         }
     }
 }

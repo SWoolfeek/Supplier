@@ -12,12 +12,9 @@ namespace RoadEngine
         private List<string> route;
         // Road. Need to be extended when system will be finished.
         [SerializeField] [ReadOnly]
-        private List<Road> roads;
+        private List<string> roads;
         [SerializeField] [ReadOnly]
         private float totalLength;
-        
-        [SerializeField] private AllRoads allRoads;
-        [SerializeField] private List<RoadNode> nodes;
         
         [Header("Managers")] 
         [SerializeField] private PlanerEngine.PlanerManager planerManager;
@@ -29,19 +26,24 @@ namespace RoadEngine
         public UnityEvent onDisableNodes = new UnityEvent();
 
         private Dictionary<string, RoadNode> _nodesDict = new Dictionary<string, RoadNode>();
+        private Dictionary<string, string> _connectionsDict = new Dictionary<string, string>();
         private string _startingNode;
         private bool _routeCreation;
         private bool _routeFinished;
+        private RoadNodesController _currentNodesController;
         
-        public void Initialize()
+        public void Initialize(RoadNodesController nodesController)
         {
-            foreach (RoadNode node in nodes)
+            _currentNodesController = nodesController;
+            _currentNodesController.roadGraphData.Initialize();
+            foreach (RoadNode node in _currentNodesController.nodes)
             {
                 _nodesDict.Add(node.nodeName, node);
                 node.Initialize(this);
                 if (node.nodeType == RoadNode.RoadNodeType.Start)
                 {
                     _startingNode = node.nodeName;
+                    Debug.Log("Starting node name - " + _startingNode);
                 }
             }
         }
@@ -49,7 +51,7 @@ namespace RoadEngine
         public void FinishRoute()
         {
             applyButton.SetActive(false);
-            planerManager.AddRoute(new Route(roads, totalLength));
+            planerManager.AddRoute(new Route(roads, totalLength, _currentNodesController.roadGraphData));
         }
 
         [Button]
@@ -60,10 +62,11 @@ namespace RoadEngine
             _routeCreation = true;
             route = new List<string>();
             // Road. Need to be extended when system will be finished.
-            roads = new List<Road>();
+            roads = new List<string>();
             route.Add(_startingNode);
             _nodesDict[_startingNode].StateStartingNode(true);
-            ActivateNodes(_nodesDict[_startingNode].nextNodes);
+            _connectionsDict.Clear();
+            ActivateNodes(GetRoadNodesAbleToConnect(_startingNode));
         }
 
         public void AddNode(string nodeName)
@@ -71,22 +74,23 @@ namespace RoadEngine
             if (_routeCreation)
             {
                 route.Add(nodeName);
-                if (_nodesDict[nodeName].nodeType != RoadNode.RoadNodeType.End)
-                {
-                    ActivateNodes(_nodesDict[nodeName].nextNodes);
-                }
-                else
+                totalLength += _currentNodesController.roadGraphData.roadNodeConnectionsDict[_connectionsDict[nodeName]]
+                    .distance;
+                roads.Add(_connectionsDict[nodeName]);
+                if (_nodesDict[nodeName].nodeType == RoadNode.RoadNodeType.End)
                 {
                     RouteFinished(true);
                     Debug.Log("Route is finished.");
                 }
-
-                int routeLasElementIndex = route.Count - 1;
-
-                Road road = allRoads.GetRoadSpline(route[routeLasElementIndex - 1] + route[routeLasElementIndex]);
-                totalLength += road.length;
+                else
+                {
+                    if (_routeFinished)
+                    {
+                        RouteFinished(false);
+                    }
+                }
                 
-                roads.Add(road);
+                ActivateNodes(GetRoadNodesAbleToConnect(nodeName));
             }
         }
 
@@ -122,9 +126,9 @@ namespace RoadEngine
                         roads.RemoveRange(roads.Count - (route.Count - nodeIndex), route.Count - nodeIndex);
 
                         totalLength = 0;
-                        foreach (Road road in roads)
+                        foreach (string road in roads)
                         {
-                            totalLength += road.length;
+                            totalLength += _currentNodesController.roadGraphData.roadNodeConnectionsDict[road].distance;
                         }
 
                         for (int i = nodeIndex; i < route.Count; i++)
@@ -144,14 +148,55 @@ namespace RoadEngine
                         RouteFinished(false);
                     }
 
-                    ActivateNodes(_nodesDict[route.Last()].nextNodes);
+                    ActivateNodes(GetRoadNodesAbleToConnect(route.Last()));
                 }
             }
+        }
+
+        //This works only for OUTPUT nodes. From player to enemies
+        private List<RoadNode> GetRoadNodesAbleToConnect(string nodeName)
+        {
+            _connectionsDict.Clear();
+            List<RoadNode> result = new List<RoadNode>();
+            
+            foreach (string connection in _currentNodesController.roadGraphData.roadNodesDict[_nodesDict[nodeName].nodeGui].outputConnections)
+            {
+                RoadNode node = _nodesDict[
+                    _currentNodesController.roadGraphData
+                        .roadNodesDict[
+                            _currentNodesController.roadGraphData.roadNodeConnectionsDict[connection].outputNodeGUID]
+                        .nodeName];
+                if (!route.Contains(node.nodeName))
+                {
+                    _connectionsDict[node.nodeName] = connection;
+                    result.Add(node);
+                }
+            }
+            
+            foreach (string connection in _currentNodesController.roadGraphData.roadNodesDict[_nodesDict[nodeName].nodeGui].inputConnections)
+            {
+                RoadNode node = _nodesDict[
+                    _currentNodesController.roadGraphData
+                        .roadNodesDict[
+                            _currentNodesController.roadGraphData.roadNodeConnectionsDict[connection].inputNodeGUID]
+                        .nodeName];
+                if (!route.Contains(node.nodeName))
+                {
+                    _connectionsDict[node.nodeName] = connection;
+                    result.Add(node);
+                }
+            }
+
+            if (result.Count < 1 && !_routeFinished)
+            {
+               Debug.LogWarning("Ooops, it is loop road!"); 
+            }
+            
+            return result;
         }
         
         private void ActivateNodes(List<RoadNode> nodesToActivate)
         {
-            Debug.Log("ActivateNodes");
             onDisableNodes.Invoke();
             
             foreach (RoadNode node in nodesToActivate)

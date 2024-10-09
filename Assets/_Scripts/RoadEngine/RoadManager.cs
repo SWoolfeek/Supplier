@@ -9,6 +9,8 @@ namespace RoadEngine
         [SerializeField] private AllRoads allRoads;
         [SerializeField] private List<RoadGraphData> roadGraphsData;
         [SerializeField] private RouteCreationManager routeManager;
+
+        [SerializeField] private RoadNodesController mainRoadNodesController; //Can be extended to List<RoadNodesController>
         
         public void StartRoad()
         {
@@ -18,7 +20,9 @@ namespace RoadEngine
             }
             
             allRoads.Initialize();
-            routeManager.Initialize();
+            routeManager.Initialize(mainRoadNodesController);
+            
+            Debug.Log("Road Manager - Initialized");
         }
     }
 }
