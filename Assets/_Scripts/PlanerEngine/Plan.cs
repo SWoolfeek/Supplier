@@ -9,5 +9,6 @@ namespace PlanerEngine
         public int planId;
         public Order order;
         public RoadEngine.Route route;
+        public int couriersAmount;
     }
 }
