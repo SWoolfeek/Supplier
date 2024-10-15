@@ -1143,7 +1143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &118517523
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4712,6 +4712,9 @@ MonoBehaviour:
   planerManager: {fileID: 685186938}
   applyButton: {fileID: 1291034135}
   onDisableNodes:
+    m_PersistentCalls:
+      m_Calls: []
+  onAllNodeDeactivate:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1289275766

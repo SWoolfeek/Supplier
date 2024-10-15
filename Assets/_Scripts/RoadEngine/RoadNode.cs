@@ -52,7 +52,8 @@ namespace RoadEngine
         public void Initialize(RouteCreationManager inputManager)
         {
             _manager = inputManager;
-            _manager.onDisableNodes.AddListener(DeactivateToChoseNode);
+            _manager.onDisableNodes.AddListener(DeactivateActiveToChoseNode);
+            _manager.onAllNodeDeactivate.AddListener(DeactivateAllActiveNode);
             ChangeNodeColour();
         }
 
@@ -71,17 +72,6 @@ namespace RoadEngine
             _isActiveToChose = true;
             _nodeState = RoadNodeState.ActiveToChose;
             ChangeNodeColour();
-        }
-        
-        public void DeActivateToChoseNode()
-        {
-            if (_isActive)
-            {
-                _isActive = false;
-                _nodeState = RoadNodeState.Owned;
-                ChangeNodeColour();
-            }
-            
         }
 
         public void StateStartingNode(bool state)
@@ -121,9 +111,20 @@ namespace RoadEngine
             }
         }
 
-        private void DeactivateToChoseNode()
+        public void DeactivateActiveToChoseNode()
         {
-            if (_isActiveToChose)
+            if (_isActiveToChose && nodeType != RoadNodeType.Start)
+            {
+                _isActiveToChose = false;
+                _isActive = false;
+                _nodeState = RoadNodeState.Owned;
+                ChangeNodeColour();
+            }
+        }
+
+        public void DeactivateAllActiveNode()
+        {
+            if ((_isActiveToChose || _isActive) && nodeType != RoadNodeType.Start)
             {
                 _isActiveToChose = false;
                 _isActive = false;
@@ -168,7 +169,8 @@ namespace RoadEngine
 
         private void OnDestroy()
         {
-            _manager.onDisableNodes.RemoveListener(DeactivateToChoseNode);
+            _manager.onDisableNodes.RemoveListener(DeactivateActiveToChoseNode);
+            _manager.onAllNodeDeactivate.RemoveListener(DeactivateAllActiveNode);
         }
     }
 }

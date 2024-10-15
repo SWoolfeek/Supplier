@@ -24,6 +24,7 @@ namespace RoadEngine
         
         [HideInInspector]
         public UnityEvent onDisableNodes = new UnityEvent();
+        public UnityEvent onAllNodeDeactivate = new UnityEvent();
 
         private Dictionary<string, RoadNode> _nodesDict = new Dictionary<string, RoadNode>();
         private Dictionary<string, string> _connectionsDict = new Dictionary<string, string>();
@@ -57,6 +58,7 @@ namespace RoadEngine
         [Button]
         public void StartRouteCreation()
         {
+            onAllNodeDeactivate.Invoke();
             Debug.Log("StartRouteCreation");
             _routeFinished = false;
             _routeCreation = true;
@@ -112,7 +114,7 @@ namespace RoadEngine
                     {
                         foreach (string node in route)
                         {
-                            _nodesDict[node].DeActivateToChoseNode();
+                            _nodesDict[node].DeactivateAllActiveNode();
                         }
                         route.Clear();
                         route.Add(_startingNode);
@@ -133,7 +135,7 @@ namespace RoadEngine
 
                         for (int i = nodeIndex; i < route.Count; i++)
                         {
-                            _nodesDict[route[i]].DeActivateToChoseNode();
+                            _nodesDict[route[i]].DeactivateAllActiveNode();
                         }
                         
                         route.RemoveRange(nodeIndex, route.Count - nodeIndex);
