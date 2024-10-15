@@ -5,6 +5,7 @@ namespace CoreSystems
     public class CoreParameters : ScriptableObject
     {
         public float timeBetweenTicks = 1f; // Time in seconds.
+        public int ticksPerDay = 1;
     }
 }
 

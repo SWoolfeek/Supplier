@@ -14,6 +14,7 @@ namespace PlanerEngine
         [SerializeField] private Button newPlanButton;
         [SerializeField] private GameObject map;
         [SerializeField] private GameObject roads;
+        [SerializeField] private GameObject plansRepresentation;
         
         // Start is called before the first frame update
         public void Initialization(PlanerManager manager)
@@ -25,6 +26,7 @@ namespace PlanerEngine
         {
             _manager.CreateNewPlan();
             newPlanButton.interactable = false;
+            plansRepresentation.SetActive(false);
         }
 
         public void OrderAdded()
@@ -37,6 +39,7 @@ namespace PlanerEngine
         {
             map.SetActive(false);
             roads.SetActive(false);
+            plansRepresentation.SetActive(true);
             Debug.Log("Plan is finished.");
             newPlanButton.interactable = true;
         }

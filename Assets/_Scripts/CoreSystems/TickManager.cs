@@ -1,5 +1,3 @@
-
-
 namespace CoreSystems
 {
     using System.Collections;

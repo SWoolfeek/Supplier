@@ -16,6 +16,7 @@ namespace PlanerEngine
         private int _couriers;
         private float _length;
         private float _size;
+        private int _days;
 
         private readonly float _negativeMultiplier = 4;
         
@@ -34,7 +35,8 @@ namespace PlanerEngine
             orderSizeText.text = size.ToString();
             _couriers = CountCouriers(size,inputCouriers, _maxCouriers);
             couriersAmountText.text = _couriers.ToString();
-            daysText.text = CalculateDays(_length, _size, _couriers).ToString();
+            _days = CalculateDays(_length, _size, _couriers);
+            daysText.text = _days.ToString();
             
             courierEditWindow.SetActive(true);
         }
@@ -51,12 +53,13 @@ namespace PlanerEngine
             }
             
             couriersAmountText.text = _couriers.ToString();
-            daysText.text = CalculateDays(_length, _size,_couriers).ToString();
+            _days = CalculateDays(_length, _size, _couriers);
+            daysText.text = _days.ToString();
         }
 
         public void ApplyChanges()
         {
-            _manager.AddCouriers(_couriers);
+            _manager.AddCouriers(_couriers, _days);
             courierEditWindow.SetActive(false);
         }
 
